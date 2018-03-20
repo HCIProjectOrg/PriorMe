@@ -76,15 +76,16 @@ function startDatabaseQueries() {
             var html = 
             '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
                     '<div class="popuptext" id='+popUpKey+'>' + 
-                        '<p id="nameLabel">' + childSnapshot.key +'</p>' +
-                        '<p id="tasknumberLabel">' + tasknumber + " "+ '</p>' +
-                        '<p id="deadlineLabel">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
-                        '<p id="deadlineLabel">' + "Details: "+ childSnapshot.val().Details  +'</p>' +
+                        '<div class="popupName" >' + 
+                            '<p class="namePopUp">' + childSnapshot.key +'</p>' +
+                        '</div>'+
+                        '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
+                        '<p class="detailsPopUp">' + "Details: "+ childSnapshot.val().Details  +'</p>' +
                     '</div>'+
-                    '<label id="tasknumberLabel">' + tasknumber + " "+ '</label>' +
-                    '<label id="nameLabel">' + childSnapshot.key  +'</label>' +
+                    '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
+                    '<label class="nameLabel">' + childSnapshot.key  +'</label>' +
                     '</br>'+
-                    '<label id="deadlineLabel">' + "Due: "+ childSnapshot.val().Deadline  +'</label>' +
+                    '<label class="deadlineLabel">' + "Due: "+ childSnapshot.val().Deadline  +'</label>' +
             '</div>';
 
             taskDiv.innerHTML = html;

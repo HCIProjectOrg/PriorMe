@@ -25,7 +25,7 @@ body {
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+/*    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -34,13 +34,13 @@ body {
         left bottom,
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
-    );
+    );*/
     background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
     margin:0px;
-    padding:50px;
+    padding:0px;
     text-transform:uppercase;
     width:100%;
 }
@@ -70,15 +70,19 @@ body {
 }
 
 
+/* Headers and Footers 
+---------------------*/ 
 h1 {
     /*position:fixed;             /* position in the center of the screen */
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
+    color: #7CB4B8;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
     text-align:center;
+    text-transform: none;
 }
 
 h2 {
@@ -200,45 +204,52 @@ img {
     .sidenav a {font-size: 18px;}
 }
 
+/* Tasks */
 
-/* Popup container */
 .task {
     position: relative;
-    display: inline-block;
+    display: block;
     cursor: pointer;
     border: solid;
-    margin-top: 10px;
-    margin-left: 2px;
-    margin-right: 2px;
-    padding: 2px;
+    margin: 10px 2px;
+    padding:2px;
+    text-transform: none;
 }
 
-/* The actual popup (appears on top) */
-.task .popuptext {
+.tasknumberLabel, .nameLabel {
+    font-size: 16pt;
+}
+
+.deadlineLabel{
+    font-size: 12pt;
+    display: block;
+    text-align:right;
+    padding-right: 10px;
+}
+
+/* Popup */
+.popuptext {
     visibility: hidden;
-    width: 160px;
+    width: 200px;
     background-color: #555;
     color: #fff;
     text-align: center;
     border-radius: 6px;
-    padding: 8px 0;
-    position: absolute;
+    position: fixed;
     z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -80px;
+    left:25%;
+    top:25%;
 }
 
-/* Popup arrow */
-.task .popuptext::after {
-    content: "";
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
+.popupName{
+    border-bottom: 2px solid;
+}
+
+.namePopUp{
+    font-size: 20pt;
+}
+.deadlinePopUp, .detailsPopUp {
+     font-size: 16pt;
 }
 
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
