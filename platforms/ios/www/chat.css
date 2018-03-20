@@ -32,7 +32,7 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#3E1929;
+    background-color:#B0DAF1;
     /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -87,6 +87,10 @@ h1 {
     overflow:visible;
     padding:0px;*/
     text-align:center;
+}
+
+p{
+    text-transform: none;
 }
 
 .event {
@@ -146,13 +150,6 @@ img {
   right: 0px;
 }
 
-.mic{
-  /*display: block;*/
-  /*margin-left: auto;*/
-  /*margin-right: auto;*/
-  /*width: 20%;*/
-}
-
 .messages::after {
     content: "";
     clear: both;
@@ -164,14 +161,13 @@ img {
     /*position: relative;*/
     /*display: inline-block;*/
     /*cursor: pointer;*/
-    border: 2pt solid;
+    
     margin-top: 10px;
     margin-left: 2px;
     margin-right: 2px;
     padding: 2px;
     width:200px;
-    background-color: #B0DAF1;
-    
+    /*background-color: #B0DAF1;*/
 }
 
 .chatMessage.user{
@@ -181,11 +177,44 @@ img {
     float:left;
 }
 
+.chatbotMessage{
+    background-color: #845A6D;
+    color:white;
+}
+
 
 .enterText{
     clear: both;
 }
 
+.chatInputDiv{
+/*    display:inline-block;
+    float:right;
+    width: 75%;
+    height: 50px;*/
+    border-top: 2px solid black;
+    padding: 5px;
+}
+
+.chatInput{
+    display:inline-block;
+    float:left;
+    width: 75%;
+    height: 50px;
+    word-wrap: break-word;
+}
+
+input.break {
+    word-wrap: break-word;
+    word-break: break-all;
+    height: 50px;
+}
+
+.mic{
+    display:inline-block;
+    float:right;
+    text-align:right;
+}
 
 /* The side navigation menu */
 .sidenav {

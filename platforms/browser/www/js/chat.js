@@ -72,6 +72,8 @@ function writeNewPost(body) {
         Message: body
 	});
     getNewUpdate();
+    var textbox = document.getElementById("new-post-message");
+    textbox.value="";
 }
 
 function startDatabaseQueries() {
@@ -81,38 +83,42 @@ function startDatabaseQueries() {
     snapshot.forEach(function(childSnapshot) {
         tasknumber++;
         var key = childSnapshot.key;
-        var pnl = document.getElementById("messages");
+        var mDiv = document.getElementById("messages");
         var taskDiv = document.createElement("div");
-        taskDiv.id = "divDyna";
+        taskDiv.class = "messageDiv";
 
             if(childSnapshot.val().Sender  == "user"){
                 var html = 
-                '<div class="chatMessage user" id="chatMessage">'+ 
+                '<div class="chatMessage user" class="chatMessage">'+ 
                     //Date
-                    '<p id="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
-                    //Sender
-                    '<p id="senderParagrah">' + childSnapshot.val().Sender  +'</p>' +
-                    //Message
-                    '<p id="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '<p class="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
+                    '<div class= chatbotMessage >'+
+                        //Sender
+                        '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                        //Message
+                        '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '</div>'+
                 '</div>';
 
                 taskDiv.innerHTML = html;
-                pnl.appendChild(taskDiv);
+                mDiv.appendChild(taskDiv);
                 
             }
             else{
                 var html = 
-                '<div class="chatMessage bot" id="chatMessage">'+ 
+                '<div class="chatMessage bot" class="chatMessage">'+ 
                     //Date
-                    '<p id="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
-                    //Sender
-                    '<p id="senderParagrah">' + childSnapshot.val().Sender  +'</p>' +
-                    //Message
-                    '<p id="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '<p class="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
+                    '<div class= chatbotMessage >'+
+                        //Sender
+                        '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                        //Message
+                        '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '</div>'+
                 '</div>';
 
                 taskDiv.innerHTML = html;
-                pnl.appendChild(taskDiv);   
+                mDiv.appendChild(taskDiv);   
             }
         });
     });
@@ -123,22 +129,24 @@ function getNewUpdate(){
     query.once("child_added", function(snapshot) {
         var newPost = snapshot.val();
 
-        var pnl = document.getElementById("mainDiv");
+        var mDiv = document.getElementById("messages");
         var taskDiv = document.createElement("div");
-        taskDiv.id = "divDyna";
+        taskDiv.class = "messageDiv";
 
         var html = 
-        '<div class="chatMessage">'+ 
+        '<div class="chatMessage user" class="chatMessage">'+ 
             //Date
-            '<p id="dateParagrah">' + newPost.Sent  +'</p>' +
-            //Sender
-            '<p id="senderParagrah">' + newPost.Sender  +'</p>' +
-            //Message
-            '<p id="messageParagrah">' + newPost.Message  +'</p>' +
+            '<p class="dateParagrah">' + newPost.Sent  +'</p>' +
+            '<div class= chatbotMessage >'+
+                //Sender
+                '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
+                //Message
+                '<p class="messageParagrah">' + newPost.Message  +'</p>' +
+            '</div>'+
         '</div>';
 
         taskDiv.innerHTML = html;
-        pnl.appendChild(taskDiv);
+        mDiv.appendChild(taskDiv);
     }); 
 }
 
