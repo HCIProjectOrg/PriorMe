@@ -16,6 +16,11 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+// Shortcuts to DOM Elements.
+var messageForm = document.getElementById('message-form');
+var messageInput = document.getElementById('new-post-message');
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -44,3 +49,48 @@ var app = {
 };
 
 app.initialize();
+
+// Saves message on form submit.
+messageForm.onsubmit = function(e) {
+    e.preventDefault();
+    var text = messageInput.value;
+    if (text) {
+        newPostForCurrentUser(text).then(function() {
+            myPostsMenuButton.click();
+        });
+        messageInput.value = '';
+        titleInput.value = '';
+    }
+};
+
+/**
+ * Creates a new post for the current user.
+*/
+function newPostForCurrentUser(title, text) {
+    // [START single_value_read]
+    var userId = firebase.auth().currentUser.uid;
+    return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+      var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
+      // [START_EXCLUDE]
+      return writeNewPost(firebase.auth().currentUser.uid, username,
+                          firebase.auth().currentUser.photoURL,
+                          title, text);
+      // [END_EXCLUDE]
+      });
+    // [END single_value_read]
+}
+
+/**
+ * Saves a new post to the Firebase DB.
+ */
+// [START write_fan_out]
+function writeNewPost(uid, username, picture, title, body) {
+    // A post entry.
+    var postData = {
+    author: username,
+    uid: uid,
+    body: body,
+    title: title,
+    starCount: 0,
+    authorPic: picture
+    };

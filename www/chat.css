@@ -16,6 +16,14 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+  /*Color Pallet
+ #845A6D--pink
+ #3E1929 -- dark red
+ #7CB4B8 -- brght blue
+ #6E75A8 -- purple
+ #B0DAF1 -- gray blue
+ */
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -24,8 +32,8 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-color:#3E1929;
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -35,12 +43,12 @@ body {
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
     );
-    background-attachment:fixed;
+    background-attachment:fixed;*/
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
     margin:0px;
-    padding:0px;
+    padding:60px;
     text-transform:uppercase;
     width:100%;
 }
@@ -69,36 +77,10 @@ body {
     }
 }
 
-.container{
-    padding: 10px;
-}
-
 h1 {
     /*position:fixed;             /* position in the center of the screen */
     /*left:50%;*/
     font-size:24px;
-    font-weight:bold;
-    /*margin:0px;
-    overflow:visible;
-    padding:0px;*/
-    text-align:center;
-}
-
-h2 {
-    /*position:fixed;             /* position in the center of the screen */
-    /*left:50%;*/
-    font-size:22px;
-    font-weight:bold;
-    /*margin:0px;
-    overflow:visible;
-    padding:0px;*/
-    text-align:left;
-}
-
-h3 {
-    /*position:fixed;             /* position in the center of the screen */
-    /*left:50%;*/
-    font-size:20px;
     font-weight:bold;
     /*margin:0px;
     overflow:visible;
@@ -116,12 +98,12 @@ h3 {
 }
 
 .event.listening {
-    background-color:#333333;
+    /*background-color:#333333;*/
     display:block;
 }
 
 .event.received {
-    background-color:#4B946A;
+    /*background-color:#4B946A;*/
     display:none;
 }
 
@@ -142,78 +124,90 @@ h3 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-
-
-.menu{
-/*    position: fixed;
-    top: 50%;
-    left: 50%;
-    margin-top: -50px;
-    margin-left: -100px;*/
-    padding-top: 20px;
-    margin: auto;
-    width: 57%;
+.heading{
+  border-bottom-style: solid;
 }
 
-.circle {
-  background-color: #2665e2;
-  border: none;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-
-  border-radius: 50%;
-  width: 100px;
-}
-
-.chat {
-  background-color: #2665e2;
-  border: none;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-
-  border-radius: 50%;
-  width: 100px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+.enterText{
+  /*position:absolute;*/
+  /*bottom:0;*/
+  /*height:100px;   */
 }
 
 /*Images*/
-img{
-  width: 50px;
-  height: 50px;
+img {
+    width: 50px;
+    height: 50px;
 }
 
-.usrIcon{
-  padding-left: 10px;
-  padding-top: 10px;
-}
-
-.settings {
-  border: none;
-  color: white;
-  padding-left: 10px;
-  padding-top: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+.menu{
+  position: absolute;
+  right: 0px;
 }
 
 .mic{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 20px;
+  /*display: block;*/
+  /*margin-left: auto;*/
+  /*margin-right: auto;*/
+  /*width: 20%;*/
 }
+
+/*Messages Blocks*/
+.chatMessage {
+    /*position: relative;*/
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    border: solid;
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 2px;
+}
+
+
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+
