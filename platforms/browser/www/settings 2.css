@@ -15,24 +15,17 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
-
- /*Color Pallet
- #845A6D--pink
- #3E1929 -- dark red
- #7CB4B8 -- brght blue
- #6E75A8 -- purple
- #B0DAF1 -- gray blue
  */
 * {
-    /*-webkit-tap-highlight-color: rgba(0,0,0,0);  make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#3E1929;
-/*    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-color:#E4E4E4;
+    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -42,11 +35,11 @@ body {
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
     );
-    background-attachment:fixed;*/
+    background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
-    margin:0;
+    margin:0px;
     padding:0px;
     text-transform:uppercase;
     width:100%;
@@ -76,43 +69,60 @@ body {
     }
 }
 
-.container{
-    padding: 10px;
-}
 
-/* Headers and Footers 
----------------------*/ 
 h1 {
     /*position:fixed;             /* position in the center of the screen */
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
-    color: #7CB4B8;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
     text-align:center;
-    text-transform: none;
 }
 
-/* Headers and Footers 
----------------------*/ 
+h2 {
+    /*position:fixed;             /* position in the center of the screen */
+    /*left:50%;*/
+    font-size:22px;
+    font-weight:bold;
+    /*margin:0px;
+    overflow:visible;
+    padding:0px;*/
+    text-align:left;
+}
+
+h3 {
+    /*position:fixed;             /* position in the center of the screen */
+    /*left:50%;*/
+    font-size:20px;
+    font-weight:bold;
+    /*margin:0px;
+    overflow:visible;
+    padding:0px;*/
+    text-align:center;
+}
+
+.heading{
+  border-bottom-style: solid;
+}
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
-    /*color:#FFFFFF;*/
+    color:#FFFFFF;
     font-size:12px;
     margin:0px 30px;
     padding:2px 0px;
 }
 
 .event.listening {
-    /*background-color:#333333;*/
+    background-color:#333333;
     display:block;
 }
 
 .event.received {
-    /*background-color:#4B946A;*/
+    background-color:#4B946A;
     display:none;
 }
 
@@ -133,53 +143,137 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-/* Menu
----------------------*/ 
-.firstLevel {
-  padding: 10px;
-  max-width:2000px;
-  text-align: center;
-  margin: 0 auto;
-}
-
-.button{
-  border: none;
-  padding: 20px;
-  text-align: center;
-  font-size: 16px;
-  color:#3E1929;
-  background-color: #7CB4B8;
-  border-radius: 50%;
-}
-
-
-/* Images 
----------------------*/ 
-img{
-  width: 50px;
-  height: 50px;
-}
-
-.usrIcon{
-  padding-left: 40px;
-  padding-top: 40px;
-}
-
-.settings {
-  border: none;
-  /*color: white;*/
-  padding-left: 10px;
-  padding-top: 10px;
+.saveButton {
   text-align: center;
   text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-}
-
-.mic{
+  background-color: #2665e2;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: 24px;
   display: block;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 20px;
+  border-radius: 30%;
+}
+
+/*Images*/
+img {
+    width: 50px;
+    height: 50px;
+}
+.menu{
+  position: absolute;
+  right: 0px;
+/*    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px; */
+}
+
+.userIcon{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }

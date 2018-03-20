@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="calendar.css" />
     <title>Calendar</title>
 </head>
-<body onload="startDatabaseQueries()">
+<body onload="startDatabaseQueries();getDate();getDay()">
     <div class="app">
       <div class="heading">
             <div id="mySidenav" class="sidenav">
@@ -74,6 +74,14 @@
         <button id="signout-button">Sign Out</button>
 
         <pre id="content"></pre>
+
+        <div class="startTasks"></div>
+        <div class="date">
+            <p class="showDate" id="date">Date</p>
+            <p class="showDate" id="day">Day</p>
+        </div>
+        <div class="tasks" id="tasksDiv">
+        </div>
       </div>
     
     <script async defer src="https://apis.google.com/js/api.js"

@@ -50,6 +50,79 @@ var app = {
 
 app.initialize();
 
+/*Get date and day*/
+function getDate() {
+    var d = new Date();
+    var n = d.getDate();
+    document.getElementById("date").innerHTML = n;
+}
+
+function getDay() {
+    var d = new Date();
+    var weekday = new Array(7);
+    weekday[0] = "Sun";
+    weekday[1] = "Mon";
+    weekday[2] = "Tues";
+    weekday[3] = "Wed";
+    weekday[4] = "Thur";
+    weekday[5] = "Fri";
+    weekday[6] = "Sat";
+
+    var n = weekday[d.getDay()];
+    document.getElementById("day").innerHTML = n;
+}
+
+
+
+/**
+ * Starts listening for new posts and populates posts lists.
+ */
+function startDatabaseQueries() {
+    var tasknumber = 0; 
+
+    var query = firebase.database().ref("Task").orderByKey();
+    query.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            tasknumber++;
+            var key = childSnapshot.key;
+
+            var pnl = document.getElementById("tasksDiv");
+            var taskDiv = document.createElement("div");
+            taskDiv.id = key;
+
+             var keyString = key.toString();
+             var popUpKey = "P"+keyString;
+             console.log("popUpKey: " + popUpKey);
+            // childSnapshot.val().Hours
+            // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
+
+            var html = 
+            '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
+                    '<div class="popuptext" id='+popUpKey+'>' + 
+                        '<div class="popupName" >' + 
+                            '<p class="namePopUp">' + childSnapshot.key +'</p>' +
+                        '</div>'+
+                        '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
+                        '<p class="detailsPopUp">' + "Details: "+ childSnapshot.val().Details  +'</p>' +
+                    '</div>'+
+                    '<label class="nameLabel">' + childSnapshot.key  +'</label>' +
+            '</div>';
+
+            taskDiv.innerHTML = html;
+            pnl.appendChild(taskDiv);
+        });
+    });
+}  
+
+// When the user clicks on <div>, open the popup
+function myFunction(keyID) {
+    console.log("KEYID: "+ keyID); 
+    var popup = document.getElementById(keyID);
+    popup.classList.toggle("show");
+}
+
+
+
 // Saves message on form submit.
 messageForm.onsubmit = function(e) {
     e.preventDefault();

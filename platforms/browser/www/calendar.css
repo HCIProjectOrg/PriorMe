@@ -20,12 +20,19 @@
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
+html{
+    box-sizing: border-box;
+}
+*,*:before, *:after{
+    box-sizing: inherit;
+}
+
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
     background-color:#E4E4E4;
-    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -35,15 +42,16 @@ body {
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
     );
-    background-attachment:fixed;
+    background-attachment:fixed;*/
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
     margin:0px;
     padding:0px;
-    text-transform:uppercase;
+    text-transform:none;
     width:100%;
 }
+
 
 /* Portrait layout (default) */
 .app {
@@ -70,38 +78,21 @@ body {
 }
 
 
+/* Headers and Footers 
+---------------------*/ 
 h1 {
     /*position:fixed;             /* position in the center of the screen */
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
+    color: #7CB4B8;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
     text-align:center;
+    text-transform: none;
 }
 
-h2 {
-    /*position:fixed;             /* position in the center of the screen */
-    /*left:50%;*/
-    font-size:22px;
-    font-weight:bold;
-    /*margin:0px;
-    overflow:visible;
-    padding:0px;*/
-    text-align:left;
-}
-
-h3 {
-    /*position:fixed;             /* position in the center of the screen */
-    /*left:50%;*/
-    font-size:20px;
-    font-weight:bold;
-    /*margin:0px;
-    overflow:visible;
-    padding:0px;*/
-    text-align:center;
-}
 
 .heading{
   border-bottom-style: solid;
@@ -143,7 +134,7 @@ h3 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-.saveButton {
+/*.saveButton {
   text-align: center;
   text-decoration: none;
   background-color: #2665e2;
@@ -155,7 +146,7 @@ h3 {
   margin-left: auto;
   margin-right: auto;
   border-radius: 30%;
-}
+}*/
 
 /*Images*/
 img {
@@ -170,10 +161,95 @@ img {
     padding: 10px; */
 }
 
-.userIcon{
+/* Tasks */
+.startTasks{
+    border-top: 2pt solid;
+}
+
+.date{
+    font-weight: bold;
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 5px;
+    font-size: 20pt;
+    width:20%;
+    float: left;
+    text-align:center;
+}
+
+.showDate{
+    padding: 0;
+    margin: 0;
+}
+
+.tasks {
+    width: 80%;
+    float: left;
+}
+
+.task {
+    position: relative;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    cursor: pointer;
+    border: solid;
+    margin: 10px 5px;
+    margin-right: 10px;
+    padding:2px;
+    text-transform: none;
+}
+
+.tasknumberLabel, .nameLabel {
+    font-size: 16pt;
+}
+
+.deadlineLabel{
+    font-size: 12pt;
+    display: block;
+    text-align:right;
+    padding-right: 10px;
+}
+
+/* Popup */
+.popuptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    position: fixed;
+    z-index: 1;
+    left:25%;
+    top:25%;
+}
+
+.popupName{
+    border-bottom: 2px solid;
+}
+
+.namePopUp{
+    font-size: 20pt;
+}
+.deadlinePopUp, .detailsPopUp {
+     font-size: 16pt;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.task .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
 }
 
 /* The side navigation menu */
