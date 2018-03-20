@@ -38,12 +38,12 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <link rel="stylesheet"  href="css/tasks.css" />
-    <title>Tasks</title>
+    <link rel="stylesheet" href="chat.css" />
+    <title>Chat</title>
 </head>
 <body onload="startDatabaseQueries()">
     <div class="app">
-    	<div class ="heading">
+    	<div class="heading">
             <div id="mySidenav" class="sidenav">
               <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
               <a href="index.html">Home</a>
@@ -64,9 +64,23 @@
                 document.getElementById("mySidenav").style.width = "0";
             }
             </script>
-            <h1>Tasks</h1>
+            <h1>Chat</h1>
     	</div>
-    	<div class ="mainDiv" id = "mainDiv"></div>
+    	<div class="mainDiv" id="mainDiv">
+            <!-- add code here to make new div for every date talked -->
+            <!-- Messages Div -->
+            <div id="messages"></div>
+            <div class="enterText">
+                <!-- add code here to make new div for textbox ... is it resizing?-->
+                <form id ="message-form" class="chatInputDiv"  target="_self" action="#">
+                     <!-- action allows for it go to server target self for it to submit and stay on this page-->
+                    <input type="text" id="new-post-message" name="chatInput" class="chatInput" placeholder="Enter Text Here">
+                    <!-- add code here to make new div for microphone -->
+                    <img onclick="startDictation()" src="img/microphone-black-shape.png" class ="mic" alt="Microphone">
+                </form>
+
+            </div>
+        </div>
 	</div>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script>
@@ -80,12 +94,11 @@
             messagingSenderId: "1029062203310"
         };
         firebase.initializeApp(config);
-        
         // Get a reference to the database service
         var database = firebase.database();
     </script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/tasks.js"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
     <script type="text/javascript">  
         app.initialize();
     </script>

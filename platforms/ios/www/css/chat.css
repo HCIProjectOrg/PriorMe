@@ -16,22 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+  /*Color Pallet
+ #845A6D--pink
+ #3E1929 -- dark red
+ #7CB4B8 -- brght blue
+ #6E75A8 -- purple
+ #B0DAF1 -- gray blue
+ */
+
+  /*Color Pallet 2
+ 011627-- dark blue
+ FF0022 -- red
+ 41EAD4-- aqua
+ FDFFFC  -- white
+ B91372 -- magenta
+ */
+
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
-}
-
-html{
-    box-sizing: border-box;
-}
-*,*:before, *:after{
-    box-sizing: inherit;
 }
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
+    background-color:#FDFFFC;
     /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -48,10 +57,9 @@ body {
     height:100%;
     margin:0px;
     padding:0px;
-    text-transform:none;
+    text-transform:uppercase;
     width:100%;
 }
-
 
 /* Portrait layout (default) */
 .app {
@@ -70,32 +78,27 @@ body {
 /* Landscape layout (with min-width) */
 @media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
     .app {
-        background-position:left center;
-        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
-        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+        /*background-position:left center;*/
+        /*padding:75px 0px 75px 170px;   padding-top + padding-bottom + text area = image height */
+        /*margin:-90px 0px 0px -198px;   offset vertical: half of image height */
                                       /* offset horizontal: half of image width and text area width */
     }
 }
 
-
-/* Headers and Footers 
----------------------*/ 
 h1 {
     /*position:fixed;             /* position in the center of the screen */
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
-    color: #7CB4B8;
+    color: #41EAD4;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
     text-align:center;
-    text-transform: none;
 }
 
-
-.heading{
-  border-bottom-style: solid;
+p{
+    text-transform: none;
 }
 
 .event {
@@ -103,17 +106,17 @@ h1 {
     -webkit-border-radius:4px;
     color:#FFFFFF;
     font-size:12px;
-    margin:0px 30px;
-    padding:2px 0px;
+    /*margin:0px 30px;*/
+    /*padding:2px 0px;*/
 }
 
 .event.listening {
-    background-color:#333333;
+    /*background-color:#333333;*/
     display:block;
 }
 
 .event.received {
-    background-color:#4B946A;
+    /*background-color:#4B946A;*/
     display:none;
 }
 
@@ -134,122 +137,96 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-/*.saveButton {
-  text-align: center;
-  text-decoration: none;
-  background-color: #2665e2;
-  padding: 10px;
-  border: none;
-  color: white;
-  font-size: 24px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 30%;
-}*/
+.heading{
+  border-bottom-style: solid;
+}
+
+.enterText{
+  /*position:absolute;*/
+  /*bottom:0;*/
+  /*height:100px;   */
+}
 
 /*Images*/
 img {
     width: 50px;
     height: 50px;
 }
+
 .menu{
   position: absolute;
   right: 0px;
-/*    width: 300px;
-    border: 3px solid #73AD21;
-    padding: 10px; */
 }
 
-/* Tasks */
-.startTasks{
-    border-top: 2pt solid;
+.messages::after {
+    content: "";
+    clear: both;
+    display: table;
 }
 
-.date{
+/*Messages Blocks*/
+.chatMessage {
+    /*position: relative;*/
+    /*display: inline-block;*/
+    /*cursor: pointer;*/
+    
+    margin-top: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding: 2px;
+    width:200px;
+    /*background-color: #B0DAF1;*/
+}
+
+.chatMessage.user{
+    float:right;
+}
+.chatMessage.bot{
+    float:left;
+}
+
+.chatbotMessage{
+    background-color: #B91372;
+    color:white;
+}
+
+
+.enterText{
+    clear: both;
+}
+
+.chatInputDiv{
+/*    display:inline-block;
+    float:right;
+    width: 75%;
+    height: 50px;*/
+    border-top: 2px solid black;
+    padding: 5px;
+}
+
+.chatInput{
+    display:inline-block;
+    float:left;
+    width: 75%;
+    height: 50px;
+    word-wrap: break-word;
+}
+
+input.break {
+    word-wrap: break-word;
+    word-break: break-all;
+    height: 50px;
+}
+
+.dateParagrah{
+    color:#011627;
     font-weight: bold;
-    padding: 0px;
-    padding-top: 10px;
-    padding-left: 5px;
-    font-size: 20pt;
-    width:20%;
-    float: left;
-    text-align:center;
 }
 
-.showDate{
-    padding: 0;
-    margin: 0;
-}
-
-.tasks {
-    width: 80%;
-    float: left;
-}
-
-.task {
-    position: relative;
-    display: block;
-    cursor: pointer;
-    border: solid;
-    margin: 10px 5px;
-    margin-right: 10px;
-    padding:2px;
-    text-transform: none;
-}
-
-.tasknumberLabel, .nameLabel {
-    font-size: 16pt;
-}
-
-.deadlineLabel{
-    font-size: 12pt;
-    display: block;
+.mic{
+    display:inline-block;
+    float:right;
     text-align:right;
-    padding-right: 10px;
-}
-
-/* Popup */
-.popuptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    position: fixed;
-    z-index: 1;
-    left:25%;
-    top:25%;
-}
-
-.popupName{
-    border-bottom: 2px solid;
-}
-
-.namePopUp{
-    font-size: 20pt;
-}
-.deadlinePopUp, .detailsPopUp {
-     font-size: 16pt;
-}
-
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.task .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
-    to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
 }
 
 /* The side navigation menu */
@@ -295,3 +272,5 @@ img {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
 }
+
+

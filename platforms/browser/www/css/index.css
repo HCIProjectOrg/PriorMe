@@ -16,13 +16,24 @@
  * specific language governing permissions and limitations
  * under the License.
 
- /*Color Pallet
+ /*Color Pallet 1
  #845A6D--pink
  #3E1929 -- dark red
  #7CB4B8 -- brght blue
  #6E75A8 -- purple
  #B0DAF1 -- gray blue
  */
+
+ 
+ /*Color Pallet 2
+ 011627-- dark blue
+ FF0022 -- red
+ 41EAD4-- aqua
+ FDFFFC  -- white
+ B91372 -- magenta
+ */
+
+
 * {
     /*-webkit-tap-highlight-color: rgba(0,0,0,0);  make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
@@ -31,7 +42,7 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#3E1929;
+    background-color:#FDFFFC;
 /*    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -87,7 +98,7 @@ h1 {
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
-    color: #7CB4B8;
+    color: #41EAD4;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
@@ -147,8 +158,8 @@ h1 {
   padding: 20px;
   text-align: center;
   font-size: 16px;
-  color:#3E1929;
-  background-color: #7CB4B8;
+  color:#FDFFFC;
+  background-color: #41EAD4;
   border-radius: 50%;
 }
 

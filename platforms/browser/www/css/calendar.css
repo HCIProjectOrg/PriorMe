@@ -16,16 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
+   /*Color Pallet 2
+ 011627-- dark blue
+ FF0022 -- red
+ 41EAD4-- aqua
+ FDFFFC  -- white
+ B91372 -- magenta
+ */
 * {
     -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html{
+    box-sizing: border-box;
+}
+*,*:before, *:after{
+    box-sizing: inherit;
 }
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#E4E4E4;
-/*    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-color:#FDFFFC;
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-gradient(
@@ -34,8 +49,8 @@ body {
         left bottom,
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
-    );*/
-    background-attachment:fixed;
+    );
+    background-attachment:fixed;*/
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -44,6 +59,7 @@ body {
     text-transform:none;
     width:100%;
 }
+
 
 /* Portrait layout (default) */
 .app {
@@ -77,7 +93,7 @@ h1 {
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
-    color: #7CB4B8;
+    color: #41EAD4;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
@@ -85,8 +101,10 @@ h1 {
     text-transform: none;
 }
 
+
 .heading{
   border-bottom-style: solid;
+  border-color: #011627;
 }
 
 .event {
@@ -125,6 +143,19 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
+/*.saveButton {
+  text-align: center;
+  text-decoration: none;
+  background-color: #2665e2;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: 24px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30%;
+}*/
 
 /*Images*/
 img {
@@ -138,6 +169,104 @@ img {
     border: 3px solid #73AD21;
     padding: 10px; */
 }
+
+/* Tasks */
+.startTasks{
+    border-top: 2pt solid;
+    border-color: #011627;
+}
+
+.date{
+    font-weight: bold;
+    color:#FF0022;
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 5px;
+    font-size: 20pt;
+    width:20%;
+    float: left;
+    text-align:center;
+}
+
+.showDate{
+    padding: 0;
+    margin: 0;
+}
+
+.tasks {
+    width: 80%;
+    float: left;
+}
+
+.task {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border: solid;
+    border-color: #011627;
+    margin: 10px 5px;
+    margin-right: 10px;
+    padding:2px;
+    text-transform: none;
+}
+
+.tasknumberLabel, .nameLabel {
+    font-size: 16pt;
+    color: #B91372;
+}
+
+.deadlineLabel{
+    font-size: 12pt;
+    display: block;
+    text-align:right;
+    padding-right: 10px;
+}
+
+/* Popup */
+.popuptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #011627;
+    color: #FDFFFC;
+    text-align: center;
+    border-radius: 6px;
+    position: fixed;
+    z-index: 1;
+    left:20%;
+    top:30%;
+}
+
+.popupName{
+    border-bottom: 2px solid;
+}
+
+.namePopUp{
+    font-size: 20pt;
+}
+.deadlinePopUp, .detailsPopUp {
+     font-size: 16pt;
+}
+.deadlinePopUp{
+    color:#FF0022;
+}
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.task .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
 /* The side navigation menu */
 .sidenav {
     height: 100%; /* 100% Full-height */
@@ -180,69 +309,4 @@ img {
 @media screen and (max-height: 450px) {
     .sidenav {padding-top: 15px;}
     .sidenav a {font-size: 18px;}
-}
-
-/* Tasks */
-.task {
-    position: relative;
-    display: block;
-    cursor: pointer;
-    border: solid;
-    margin: 10px 2px;
-    padding:2px;
-    text-transform: none;
-}
-
-.tasknumberLabel, .nameLabel {
-    font-size: 16pt;
-}
-
-.deadlineLabel{
-    font-size: 12pt;
-    display: block;
-    text-align:right;
-    padding-right: 10px;
-}
-
-/* Popup */
-.popuptext {
-    visibility: hidden;
-    width: 200px;
-    background-color: #555;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    position: fixed;
-    z-index: 1;
-    left:25%;
-    top:25%;
-}
-
-.popupName{
-    border-bottom: 2px solid;
-}
-
-.namePopUp{
-    font-size: 20pt;
-}
-.deadlinePopUp, .detailsPopUp {
-     font-size: 16pt;
-}
-
-/* Toggle this class when clicking on the popup container (hide and show the popup) */
-.task .show {
-    visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s
-}
-
-/* Add animation (fade in the popup) */
-@-webkit-keyframes fadeIn {
-    from {opacity: 0;} 
-    to {opacity: 1;}
-}
-
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity:1 ;}
 }

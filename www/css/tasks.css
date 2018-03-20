@@ -15,23 +15,25 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
-
- /*Color Pallet
- #845A6D--pink
- #3E1929 -- dark red
- #7CB4B8 -- brght blue
- #6E75A8 -- purple
- #B0DAF1 -- gray blue
  */
+
+/*Color Pallet 2
+ 011627-- dark blue
+ FF0022 -- red
+ 41EAD4-- aqua
+ FDFFFC  -- white
+ B91372 -- magenta
+ */
+
 * {
-    /*-webkit-tap-highlight-color: rgba(0,0,0,0);  make transparent link selection, adjust last value opacity 0 to 1.0 */
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
 }
 
 body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#3E1929;
+    background-color:#FDFFFC;
 /*    background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
     background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
@@ -41,14 +43,14 @@ body {
         left bottom,
         color-stop(0, #A7A7A7),
         color-stop(0.51, #E4E4E4)
-    );
-    background-attachment:fixed;*/
+    );*/
+    background-attachment:fixed;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
-    margin:0;
+    margin:0px;
     padding:0px;
-    text-transform:uppercase;
+    text-transform:none;
     width:100%;
 }
 
@@ -76,9 +78,6 @@ body {
     }
 }
 
-.container{
-    padding: 10px;
-}
 
 /* Headers and Footers 
 ---------------------*/ 
@@ -87,7 +86,7 @@ h1 {
     /*left:50%;*/
     font-size:24px;
     font-weight:bold;
-    color: #7CB4B8;
+    color: #41EAD4;
     /*margin:0px;
     overflow:visible;
     padding:0px;*/
@@ -95,24 +94,26 @@ h1 {
     text-transform: none;
 }
 
-/* Headers and Footers 
----------------------*/ 
+.heading{
+  border-bottom-style: solid;
+}
+
 .event {
     border-radius:4px;
     -webkit-border-radius:4px;
-    /*color:#FFFFFF;*/
+    color:#FFFFFF;
     font-size:12px;
     margin:0px 30px;
     padding:2px 0px;
 }
 
 .event.listening {
-    /*background-color:#333333;*/
+    background-color:#333333;
     display:block;
 }
 
 .event.received {
-    /*background-color:#4B946A;*/
+    background-color:#4B946A;
     display:none;
 }
 
@@ -133,53 +134,130 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-/* Menu
----------------------*/ 
-.firstLevel {
-  padding: 10px;
-  max-width:2000px;
-  text-align: center;
-  margin: 0 auto;
+
+/*Images*/
+img {
+    width: 50px;
+    height: 50px;
+}
+.menu{
+  position: absolute;
+  right: 0px;
+/*    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px; */
+}
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
 }
 
-.button{
-  border: none;
-  padding: 20px;
-  text-align: center;
-  font-size: 16px;
-  color:#3E1929;
-  background-color: #7CB4B8;
-  border-radius: 50%;
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
 }
 
-
-/* Images 
----------------------*/ 
-img{
-  width: 50px;
-  height: 50px;
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
 }
 
-.usrIcon{
-  padding-left: 40px;
-  padding-top: 40px;
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
 }
 
-.settings {
-  border: none;
-  /*color: white;*/
-  padding-left: 10px;
-  padding-top: 10px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
 }
 
-.mic{
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding-top: 20px;
+/* Tasks */
+.task {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border: solid;
+    margin: 10px 2px;
+    padding:2px;
+    text-transform: none;
+}
+
+.tasknumberLabel, .nameLabel {
+    font-size: 16pt;
+    color: #B91372;
+    font-weight: bold;
+}
+
+.deadlineLabel{
+    font-size: 12pt;
+    display: block;
+    text-align:right;
+    padding-right: 10px;
+    color: #B91372;
+}
+
+/* Popup */
+.popuptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #011627;
+    color: #FDFFFC;
+    text-align: center;
+    border-radius: 6px;
+    position: fixed;
+    z-index: 1;
+    left:20%;
+    top:30%;
+}
+
+.popupName{
+    border-bottom: 2px solid;
+}
+
+.namePopUp{
+    font-size: 20pt;
+}
+.deadlinePopUp, .detailsPopUp {
+     font-size: 16pt;
+}
+.deadlinePopUp{
+    color:#FF0022;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.task .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
 }
