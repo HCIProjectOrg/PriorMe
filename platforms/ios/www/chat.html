@@ -38,10 +38,10 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <link rel="stylesheet" type="text/css" href="css/chat.css" />
-    <title>Tasks</title>
+    <link rel="stylesheet" href="chat.css" />
+    <title>Chat</title>
 </head>
-<body>
+<body onload="startDatabaseQueries()">
     <div class="app">
     	<div class="heading">
             <div id="mySidenav" class="sidenav">
@@ -66,23 +66,40 @@
             </script>
             <h1>Chat</h1>
     	</div>
-    	<div class="mainDiv">
+    	<div class="mainDiv" id="mainDiv">
             <!-- add code here to make new div for every date talked -->
+            <!-- Messages Div -->
+            <div id="messages"></div>
             <div class="enterText">
                 <!-- add code here to make new div for textbox ... is it resizing?-->
-                <form action="" target="_self">
-                     <!-- action allows for it go to server
-                        target self for it to submit and stay on this page-->
-                    <input type="text" name="chatInput" placeholder="Enter Text Here" >
+                <form id ="message-form" target="_self" action="#">
+                     <!-- action allows for it go to server target self for it to submit and stay on this page-->
+                    <input type="text" id="new-post-message" name="chatInput" placeholder="Enter Text Here" >
                     <input type="submit" value="Submit">
+                    <!-- add code here to make new div for microphone -->
+                    <img onclick="startDictation()" src="img/microphone-black-shape.png" class ="mic" alt="Microphone">
                 </form>
-                <!-- add code here to make new div for microphone -->
-                <img src="img/microphone-black-shape.png" class ="mic" alt="Microphone">
+
             </div>
         </div>
 	</div>
+    <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyBoDZet9jdCyYbuBWx4ed7CbK7gqTwk9ME",
+            authDomain: "priorme-63e89.firebaseapp.com",
+            databaseURL: "https://priorme-63e89.firebaseio.com",
+            projectId: "priorme-63e89",
+            storageBucket: "",
+            messagingSenderId: "1029062203310"
+        };
+        firebase.initializeApp(config);
+        // Get a reference to the database service
+        var database = firebase.database();
+    </script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/chat.js"></script>
     <script type="text/javascript">  
         app.initialize();
     </script>
