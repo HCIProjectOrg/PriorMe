@@ -20,6 +20,7 @@
 // Shortcuts to DOM Elements.
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('new-post-message');
+var oldDate = "date check";
 
 var app = {
     // Application Constructor
@@ -64,10 +65,12 @@ messageForm.onsubmit = function(e) {
 function writeNewPost(body) {
    	var d = new Date();
     var sender = "user";
-   	var date = d.toString();
+   	var date = d.toDateString();
+    var time = d.toLocaleTimeString();
     firebase.database().ref('Messages').push({
 	    [d]: body,
-        Sent: date,
+        Date: date,
+        Time: time,
         Sender: sender,
         Message: body
 	});
@@ -85,41 +88,52 @@ function startDatabaseQueries() {
         var key = childSnapshot.key;
         var mDiv = document.getElementById("messages");
         var taskDiv = document.createElement("div");
+        var html = "";
         taskDiv.class = "messageDiv";
 
-            if(childSnapshot.val().Sender  == "user"){
-                var html = 
-                '<div class="chatMessage user" class="chatMessage">'+ 
-                    //Date
-                    '<p class="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
-                    '<div class= chatbotMessage >'+
-                        //Sender
-                        '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
-                        //Message
-                        '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
-                    '</div>'+
-                '</div>';
+        //check for dates
+        if(oldDate == childSnapshot.val().Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + childSnapshot.val().Date  +'</p>' +
+            '</div>'; 
+        }
 
-                taskDiv.innerHTML = html;
-                mDiv.appendChild(taskDiv);
-                
-            }
-            else{
-                var html = 
-                '<div class="chatMessage bot" class="chatMessage">'+ 
-                    //Date
-                    '<p class="dateParagrah">' + childSnapshot.val().Sent  +'</p>' +
-                    '<div class= chatbotMessage >'+
-                        //Sender
-                        '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
-                        //Message
-                        '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
-                    '</div>'+
-                '</div>';
+        if(childSnapshot.val().Sender  == "user"){
+            html = html + 
+            '<div class="chatMessage user">'+ 
+                //Date
+                '<p class="dateParagrahUser">' + childSnapshot.val().Time  +'</p>' +
+                '<div class= chatbotMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                '</div>'+
+            '</div>';
+        }
+        else{
+            html = html +  
+            '<div class="chatMessage bot">'+ 
+                //Date
+                '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
+                '<div class= chatbotMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                '</div>'+
+            '</div>';  
+        }
 
-                taskDiv.innerHTML = html;
-                mDiv.appendChild(taskDiv);   
-            }
+        oldDate = childSnapshot.val().Date;
+        taskDiv.innerHTML = html;   
+        mDiv.appendChild(taskDiv);
         });
     });
 }
@@ -132,14 +146,29 @@ function getNewUpdate(){
         var mDiv = document.getElementById("messages");
         var taskDiv = document.createElement("div");
         taskDiv.class = "messageDiv";
+        var html = "";
+        
+        //check for dates
+        if(oldDate == newPost.Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + newPost.Date  +'</p>' +
+            '</div>';
+            oldDate = newPost.Date;
+        }
 
-        var html = 
-        '<div class="chatMessage user" class="chatMessage">'+ 
+        html = html + 
+        '<div class="chatMessage user">'+ 
             //Date
-            '<p class="dateParagrah">' + newPost.Sent  +'</p>' +
+            '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
             '<div class= chatbotMessage >'+
                 //Sender
-                '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
+                // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
                 //Message
                 '<p class="messageParagrah">' + newPost.Message  +'</p>' +
             '</div>'+

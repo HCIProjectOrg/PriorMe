@@ -98,6 +98,7 @@ h1 {
 }
 
 p{
+    font-size:14px;
     text-transform: none;
 }
 
@@ -158,6 +159,10 @@ img {
   right: 0px;
 }
 
+.messages{
+    overflow: hidden;
+}
+
 .messages::after {
     content: "";
     clear: both;
@@ -165,11 +170,19 @@ img {
 }
 
 /*Messages Blocks*/
+.dayStamp{
+    display:block;
+    text-align: center;
+    color:#011627;
+    font-weight: bold;
+    clear: both;
+}
+
 .chatMessage {
     /*position: relative;*/
     /*display: inline-block;*/
     /*cursor: pointer;*/
-    
+    display:inline-block;
     margin-top: 10px;
     margin-left: 2px;
     margin-right: 2px;
@@ -179,15 +192,22 @@ img {
 }
 
 .chatMessage.user{
-    float:right;
+    float: right;
+    /*text-align: right;*/
 }
+
 .chatMessage.bot{
     float:left;
+    /*display:block;*/
+    /*text-align: left;*/
 }
 
 .chatbotMessage{
+    padding: 1px;
+    border-radius: 5pt;
     background-color: #B91372;
     color:white;
+    text-align: left;
 }
 
 
@@ -212,16 +232,30 @@ img {
     word-wrap: break-word;
 }
 
+.messageParagrah{
+    padding-left:3px;
+}
+
 input.break {
     word-wrap: break-word;
     word-break: break-all;
     height: 50px;
 }
 
-.dateParagrah{
+
+.dateParagrahUser{
     color:#011627;
     font-weight: bold;
+    text-align: right;
 }
+
+.dateParagrahBot{
+    color:#011627;
+    font-weight: bold;
+    text-align: left;
+}
+
+
 
 .mic{
     display:inline-block;
