@@ -16,10 +16,31 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+"use strict";
 
 // Shortcuts to DOM Elements.
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('new-post-message');
+var apn = require('apn');
+
+var options = {
+  token: {
+    key: "js/APNsAuthKey_FY7JV87M7A.p8",
+    cert:"aps_development.cer",
+    keyId: "FY7JV87M7A",
+    teamId: "UE6S3WWHDC"
+  },
+  proxy: {
+    host: "10.0.1.45",
+    port: 3000
+  },
+  production: false
+};
+
+var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
+var myDevice = new apn.Device(deviceToken);
+let apnProvider = new apn.Provider(options);
+
 
 var app = {
     // Application Constructor
@@ -56,7 +77,7 @@ app.initialize();
  */
 function startDatabaseQueries() {
     var tasknumber = 0; 
-
+    var tasks = [];
     var query = firebase.database().ref("Task").orderByKey();
     query.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
@@ -69,7 +90,7 @@ function startDatabaseQueries() {
 
              var keyString = key.toString();
              var popUpKey = "P"+keyString;
-             console.log("popUpKey: " + popUpKey);
+             // console.log("popUpKey: " + popUpKey);
             // childSnapshot.val().Hours
             // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
 
@@ -77,19 +98,25 @@ function startDatabaseQueries() {
             '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
                     '<div class="popuptext" id='+popUpKey+'>' + 
                         '<div class="popupName" >' + 
-                            '<p class="namePopUp">' + childSnapshot.key +'</p>' +
+                            '<p class="namePopUp">' + childSnapshot.val().Name +'</p>' +
                         '</div>'+
                         '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
                         '<p class="detailsPopUp">' + "Details: "+ childSnapshot.val().Details  +'</p>' +
                     '</div>'+
                     '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
-                    '<label class="nameLabel">' + childSnapshot.key  +'</label>' +
+                    '<label class="nameLabel">' + childSnapshot.val().Name   +'</label>' +
                     '</br>'+
                     '<label class="deadlineLabel">' + "Due: "+ childSnapshot.val().Deadline  +'</label>' +
             '</div>';
 
             taskDiv.innerHTML = html;
             pnl.appendChild(taskDiv);
+
+            dueDate(childSnapshot.val().Deadline);
+            tasks.push(childSnapshot.val().Deadline);
+            console.log("alert1");
+            console.log(tasks[0]);
+            console.log("alert2");
         });
     });
 }  
@@ -117,12 +144,43 @@ function startDatabaseQueries() {
     //     document.getElementById('taskTypeLabel').innerText = type;
     // });
 
-
-
-
 // When the user clicks on <div>, open the popup
 function myFunction(keyID) {
     console.log("KEYID: "+ keyID); 
+    //if yes send push notification
+    console.log("Alert1");
+    let notification = new apn.Notification();
     var popup = document.getElementById(keyID);
     popup.classList.toggle("show");
+    console.log("Alert2"); 
+    // notification.alert = "Hello, world!";
+    // console.log("Alert2"); 
+    // notification.badge = 1;
+    // console.log("Alert3"); 
+    // notification.topic = "io.github.node-apn.test-app";
+    // console.log("Alert4"); 
+    // apnProvider.send(notification, deviceToken).then( (result) => {
+    //     console.log("YAYYY"); 
+    // });
+    // console.log("Alert5"); 
 }
+
+//check if task is due tomorrow
+function dueDate(Deadline){
+    //get tomorrow's date
+    var today = new Date();
+    var tomorrow = new Date(today.getTime() + (24 * 60 * 60 * 1000));
+    var year = tomorrow.getFullYear();
+    var month = tomorrow.getMonth()+1;
+    if (month < 10){
+        month = "0"+month;
+    }
+    var day = tomorrow.getDate();
+    var check = year + "-" + month + "-"+ day;
+
+    //see if the dates are equal
+    if(Deadline == check){
+        console.log("SOMETHING'S DUE TOMORROW");
+    }
+}
+
