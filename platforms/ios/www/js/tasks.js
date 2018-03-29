@@ -103,9 +103,9 @@ app.initialize();
 // <<<<<<< HEAD
 //              var keyString = key.toString();
 //              var popUpKey = "P"+keyString;
-//              // console.log("popUpKey: " + popUpKey);
-//             // childSnapshot.val().Hours
-//             // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
+             // console.log("popUpKey: " + popUpKey);
+            // childSnapshot.val().Hours
+            // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
 // =======
     var query = firebase.database().ref("Task").orderByKey();
 
