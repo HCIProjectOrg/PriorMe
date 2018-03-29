@@ -97,10 +97,84 @@
         // Get a reference to the database service
         var database = firebase.database();
     </script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/chat.js"></script>
     <script type="text/javascript">  
+
         app.initialize();
+		//Add
+		$(document).ready(function(){
+		
+			var accessToken = "b4d343db05bd4886bdb0f9408b9e43ab";
+			var baseUrl = "https://api.api.ai/v1/";
+			var box = null;
+			box = $("#chat_div").chatbox({id: "Me",
+											user: {key : "value"},
+											title: "PriorME",
+											messageSent: function(id,user,msg){
+												send(msg);
+												$("#chat_div").chatbox("option", "boxManager").addMsg(id, "<span><i>" + msg + "</i></span>");
+											}
+										});
+			function send(msg){
+				console.log("msg %o", msg);
+				var text = msg;
+				$.ajax({
+					type: "POST",
+					url: "https://api.api.ai/v1/query?v=20150910",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					headers: {
+						"Authorization": "Bearer " + "b4d343db05bd4886bdb0f9408b9e43ab"
+					},
+					data: JSON.stringify({query: text, lang: "en", sessionId: "1234567890"}),
+					success: function(data){
+						console.log("response %o", data);
+						setResponse(JSON.stringify(data,undefined,2));
+					},
+					error: function(){
+						console.log("Error");	
+					}
+				});
+				
+				
+			}
+
+			function setResponse(val){
+				var response = JSON.parse(val);
+				console.log("set %o", response);
+				var htmlTxt = "<span>" + response.result.fulfillment.speech + "</span> </br>";
+				console.log("Chi shode 1");
+				if(response.result.fulfillment.data != null || response.result.fulfillment.data != undefined){
+					console.log("matrixData is not null");
+					var tableTxt = "<table class='matrix'>";
+					console.log("Chi shode 2");			
+					
+					tableTxt += "<tr><th></th>";
+					for(var i in response.result.fulfillment.data.cols){
+						console.log("Chi shode 3");
+						tableTxt += "<th>" + response.result.fulfillment.data.cols[i] + "</th>";
+					}
+					
+					tableTxt += "</tr>";
+					for(var i in response.result.fulfillment.data.rows){
+						tableTxt += "<tr>";
+						console.log("Chi shode 4");
+						for(var j in response.result.fulfillment.data.rows[i])
+							tableTxt += "<td>" + response.result.fulfillment.data.rows[i][j] + "</td>";
+							console.log("Chi shode 5");
+						tableTxt += "</tr>";
+					}
+								
+					tableTxt += "</table>";
+					htmlTxt += tableTxt;	
+				}
+				
+				$("#chat_div").chatbox("option", "boxManager").addMsg("PriorMe",htmlTxt);
+			}
+	
+		});
     </script>
 </body>
 </html>

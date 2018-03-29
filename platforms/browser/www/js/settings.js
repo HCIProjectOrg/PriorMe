@@ -81,6 +81,28 @@ Settingsform.onsubmit = function(e) {
     var project = Number(projectStudy)+Number(projectStress);
     var research = Number(researchStudy)+Number(researchStress);
 
+// <<<<<<< HEAD
+// =======
+    console.log(exam);
+
+    
+    if(exam.valueOf() < 1){
+        exam = Number(1);
+    }
+
+    if(hw.valueOf() < 1){
+        hw = Number(1);
+    }
+
+    if(project.valueOf() < 1){
+        project = Number(1);
+    }
+
+    if(research.valueOf() < 1){
+        research = Number(1);
+    }
+
+// >>>>>>> aee29bb99cd06012003e5a9a938226e8b1c3664d
     updatePriorities(exam, hw, project, research).then(function() {});  
 };
 

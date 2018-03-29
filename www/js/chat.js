@@ -56,7 +56,8 @@ messageForm.onsubmit = function(e) {
     e.preventDefault();
     var text = messageInput.value;
     if (text) {
-        writeNewPost(text).then(function() {});  
+        writeNewPost(text);  
+		setTimeout(function () {send(text).then(function() {})}, 1500);
     }
     messageInput.value = '';
 };
@@ -77,6 +78,102 @@ function writeNewPost(body) {
     getNewUpdate();
     var textbox = document.getElementById("new-post-message");
     textbox.value="";
+}
+
+function send(msg){
+	
+	console.log("msg %o", msg);
+	var text = msg;
+	$.ajax({
+		type: "POST",
+		url: "https://api.api.ai/v1/query?v=20150910",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		headers: {
+			"Authorization": "Bearer " + "b4d343db05bd4886bdb0f9408b9e43ab"
+		},
+		data: JSON.stringify({query: text, lang: "en", sessionId: "1234567890"}),
+		success: function(data){
+			console.log("response %o", data);
+			setResponse(JSON.stringify(data,undefined,2));
+		},
+		error: function(){
+			console.log("Error");	
+		}
+	});
+
+	setTimeout(function() {getDialogFlowUpdate();},2000);								
+}
+
+function setResponse(val){
+	var response = JSON.parse(val);
+	console.log("set %o", response);
+	var htmlTxt = "<span>" + response.result.fulfillment.speech + "</span> </br>";
+	if(response.result.fulfillment.data != null || response.result.fulfillment.data != undefined){
+		var tableTxt = "<table class='matrix'>";		
+					
+		tableTxt += "<tr><th></th>";
+		for(var i in response.result.fulfillment.data.cols){
+			tableTxt += "<th>" + response.result.fulfillment.data.cols[i] + "</th>";
+		}
+					
+		tableTxt += "</tr>";
+		for(var i in response.result.fulfillment.data.rows){
+			tableTxt += "<tr>";
+			for(var j in response.result.fulfillment.data.rows[i])
+				tableTxt += "<td>" + response.result.fulfillment.data.rows[i][j] + "</td>";
+			tableTxt += "</tr>";
+		}
+								
+		tableTxt += "</table>";
+		htmlTxt += tableTxt;	
+	}
+				
+	$("#chat_div").chatbox("option", "boxManager").addMsg("PriorMe",htmlTxt);
+}
+function getDialogFlowUpdate(){
+	firebase.database().ref('Messages').once('value', snapshot => {
+        const todoList = snapshot.val();
+        const keys = Object.keys(todoList || {});
+
+		const key = keys[keys.length-1];
+		   let item = todoList[key];
+           
+		   
+		   var mDiv = document.getElementById("messages");
+        var taskDiv = document.createElement("div");
+        taskDiv.class = "messageDiv";
+        var html = "";
+        
+        //check for dates
+        if(oldDate == item.Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + item.Date  +'</p>' +
+            '</div>';
+            oldDate = item.Date;
+        }
+
+        html = html + 
+        '<div class="chatMessage user">'+ 
+            //Date
+            '<p class="dateParagrahUser">' + item.Time  +'</p>' +
+            '<div class= chatbotMessage >'+
+                //Sender
+                // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
+                //Message
+                '<p class="messageParagrah">' + item.Message  +'</p>' +
+            '</div>'+
+        '</div>';
+
+        taskDiv.innerHTML = html;
+        mDiv.appendChild(taskDiv);
+		});
 }
 
 function startDatabaseQueries() {
