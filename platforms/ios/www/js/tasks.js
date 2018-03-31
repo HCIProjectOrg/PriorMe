@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-"use strict";
+ "use strict";
 
 // Shortcuts to DOM Elements.
 var messageForm = document.getElementById('message-form');
@@ -29,12 +29,12 @@ var options = {
     cert:"aps_development.cer",
     keyId: "FY7JV87M7A",
     teamId: "UE6S3WWHDC"
-  },
-  proxy: {
+},
+proxy: {
     host: "10.0.1.45",
     port: 3000
-  },
-  production: false
+},
+production: false
 };
 
 var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
@@ -77,14 +77,6 @@ app.initialize();
  */
  function startDatabaseQueries() {
     var tasknumber = 0; 
-// <<<<<<< HEAD
-//     var tasks = [];
-//     var query = firebase.database().ref("Task").orderByKey();
-//     query.once("value").then(function(snapshot) {
-//         snapshot.forEach(function(childSnapshot) {
-//             tasknumber++;
-//             var key = childSnapshot.key;
-// =======
     var taskKeys = [];
     var taskNames = [];
     var taskDeadlines = [];
@@ -97,160 +89,152 @@ app.initialize();
     var homeworkPriority = 0;
     var projectPriority = 0;
     var researchPriority = 0;
-// >>>>>>> aee29bb99cd06012003e5a9a938226e8b1c3664d
 
-
-// <<<<<<< HEAD
-//              var keyString = key.toString();
-//              var popUpKey = "P"+keyString;
-             // console.log("popUpKey: " + popUpKey);
-            // childSnapshot.val().Hours
-            // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
-// =======
     var query = firebase.database().ref("Task").orderByKey();
 
     query.once("value").then(
-// >>>>>>> aee29bb99cd06012003e5a9a938226e8b1c3664d
 
     //store task data from DB
     function(snapshot) {
+        //get current date, we only want tasks that have not yet passed
+        var today = new Date();
+        var todayDay = today.getDate();
+        var todayMonth = (today.getMonth()+1);
+        var todayYear = today.getFullYear();
         snapshot.forEach(function(childSnapshot) {
-            //console.log("TASK");
-            taskKeys.push(childSnapshot.key);
-            taskNames.push(childSnapshot.val().Name);
-            taskDeadlines.push(childSnapshot.val().Deadline);
-            taskDetails.push(childSnapshot.val().Details);
-            taskHours.push(childSnapshot.val().Hours);
-            taskType.push(childSnapshot.val().TaskType);
-            //console.log(taskKeys[0]);
-            //console.log(taskNames[0]);
-            //console.log(taskDeadlines[0]);
-            //console.log(taskDetails[0]);
-            //console.log(taskHours[0]);
-            //console.log(taskType[0]);
+
+            var taskDate = childSnapshot.val().Deadline.toString();
+            taskDate += " ";
+            var taskDateYear = Number(taskDate.substring(0,4));
+            var taskDateMonth = Number(taskDate.substring(5,7));
+            var taskDateDay = Number(taskDate.substring(8,10));
+
+
+            //only push tasks that have not yet happened
+            if(taskDateDay!=NaN && taskDateMonth!=NaN && taskDateYear!=NaN){
+                //year is higher, so we want to display
+                if(taskDateYear > todayYear){
+                    taskKeys.push(childSnapshot.key);
+                    taskNames.push(childSnapshot.val().Name);
+                    taskDeadlines.push(childSnapshot.val().Deadline);
+                    taskDetails.push(childSnapshot.val().Details);
+                    taskHours.push(childSnapshot.val().Hours);
+                    taskType.push(childSnapshot.val().TaskType);
+                }else if(taskDateYear == todayYear && (taskDateMonth > todayMonth || (taskDateDay >= todayDay && taskDateMonth==todayMonth))){
+                    /*
+                    Task is in the current year AND:
+
+                    The task in a future month
+                    OR
+                    The task is in the same month and future day
+                    */
+                    taskKeys.push(childSnapshot.key);
+                    taskNames.push(childSnapshot.val().Name);
+                    taskDeadlines.push(childSnapshot.val().Deadline);
+                    taskDetails.push(childSnapshot.val().Details);
+                    taskHours.push(childSnapshot.val().Hours);
+                    taskType.push(childSnapshot.val().TaskType);
+                }
+            }
         });
     }).then(
 
-    //get priority data from DB
-    function(){
-        var query2 = firebase.database().ref("Priorities");
-        query2.once("value").then(
+        //get priority data from DB
+        function(){
+            var query2 = firebase.database().ref("Priorities");
+            query2.once("value").then(
 
-            function(snapshot){
-                examPriority = snapshot.val().examPriority;
-                homeworkPriority = snapshot.val().homeworkPrioirity;
-                projectPriority = snapshot.val().projectPriority;
-                researchPriority = snapshot.val().researchPriority;
-            }
+                function(snapshot){
+                    examPriority = snapshot.val().examPriority;
+                    homeworkPriority = snapshot.val().homeworkPrioirity;
+                    projectPriority = snapshot.val().projectPriority;
+                    researchPriority = snapshot.val().researchPriority;
+                }).then(
 
-            ).then(
+                    //sort tasks then displayed based on ordering
+                    function(){
 
-            //sort tasks then displayed based on ordering
-            function(){
-                //associate priorities with given categories
-                for(var i=0; i<taskKeys.length; i++){
-                    if(taskType[i]=="exam"){
-                        taskPriorities.push(examPriority);
-                    }else if(taskType[i]=="homework"){
-                        taskPriorities.push(homeworkPriority);
-                    }else if(taskType[i]=="project"){
-                        taskPriorities.push(projectPriority);
-                    }else if(taskType[i]=="research"){
-                        taskPriorities.push(researchPriority);
-                    }else{
-                        taskPriorities.push(5);
-                    }
-                }
-
-                for(var i=0; i<taskPriorities.length; i++){
-                    for(var j = 0; j<taskPriorities.length; j++){
-                        if(taskPriorities[i]>taskPriorities[j]){
-                            var temp = taskDeadlines[i];
-                            taskDeadlines[i] = taskDeadlines[j];
-                            taskDeadlines[j] = temp;
-
-                            temp = taskKeys[i];
-                            taskKeys[i] = taskKeys[j];
-                            taskKeys[j] = temp;
-
-                            temp = taskHours[i];
-                            taskHours[i] = taskHours[j];
-                            taskHours[j] = temp;
-
-                            temp = taskNames[i];
-                            taskNames[i] = taskNames[j];
-                            taskNames[j] = temp;
-
-                            temp = taskDetails[i];
-                            taskDetails[i] = taskDetails[j];
-                            taskDetails[j] = temp;
-
-                            temp = taskType[i];
-                            taskType[i] = taskType[j];
-                            taskType[j] = temp;
-
-                            temp = taskPriorities[i];
-                            taskPriorities[i] = taskPriorities[j];
-                            taskPriorities[j] = temp;
+                        //associate priorities with given categories
+                        for(var i=0; i<taskKeys.length; i++){
+                            if(taskType[i]=="exam"){
+                                taskPriorities.push(examPriority);
+                            }else if(taskType[i]=="homework"){
+                                taskPriorities.push(homeworkPriority);
+                            }else if(taskType[i]=="project"){
+                                taskPriorities.push(projectPriority);
+                            }else if(taskType[i]=="research"){
+                                taskPriorities.push(researchPriority);
+                            }else{
+                                taskPriorities.push(5);
+                            }
                         }
-                    }
-                }
-                
-                //display
-                for(var i=0; i<taskKeys.length; i++){
-                    tasknumber++;
-                    var key = taskKeys[i];
 
-                    var pnl = document.getElementById("mainDiv");
-                    var taskDiv = document.createElement("div");
-                    taskDiv.id = key;
+                        for(var i=0; i<taskPriorities.length; i++){
+                            for(var j = 0; j<taskPriorities.length; j++){
+                                if(taskPriorities[i]>taskPriorities[j]){
+                                    var temp = taskDeadlines[i];
+                                    taskDeadlines[i] = taskDeadlines[j];
+                                    taskDeadlines[j] = temp;
 
-                    var keyString = key.toString();
-                    var popUpKey = "P"+keyString;
+                                    temp = taskKeys[i];
+                                    taskKeys[i] = taskKeys[j];
+                                    taskKeys[j] = temp;
 
-                    var html = 
-                    '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
-                    '<div class="popuptext" id='+popUpKey+'>' + 
-// <<<<<<< HEAD
-//                         '<div class="popupName" >' + 
-//                             '<p class="namePopUp">' + childSnapshot.val().Name +'</p>' +
-//                         '</div>'+
-//                         '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
-//                         '<p class="detailsPopUp">' + "Details: "+ childSnapshot.val().Details  +'</p>' +
-//                     '</div>'+
-//                     '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
-//                     '<label class="nameLabel">' + childSnapshot.val().Name   +'</label>' +
-// =======
-                    '<div class="popupName" >' + 
-                    '<p class="namePopUp">' + taskNames[i] +'</p>' +
-                    '</div>'+
-                    '<p class="deadlinePopUp">' + "Due: "+ taskDeadlines[i]  +'</p>' +
-                    '<p class="detailsPopUp">' + "Details: "+ taskDetails[i]  +'</p>' +
-                    '</div>'+
-                    '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
-                    '<label class="nameLabel">' + taskNames[i]  +'</label>' +
-// >>>>>>> aee29bb99cd06012003e5a9a938226e8b1c3664d
-                    '</br>'+
-                    '<label class="deadlineLabel">' + "Due: "+ taskDeadlines[i]  +'</label>' +
-                    '</div>';
+                                    temp = taskHours[i];
+                                    taskHours[i] = taskHours[j];
+                                    taskHours[j] = temp;
 
-// <<<<<<< HEAD
-//             taskDiv.innerHTML = html;
-//             pnl.appendChild(taskDiv);
+                                    temp = taskNames[i];
+                                    taskNames[i] = taskNames[j];
+                                    taskNames[j] = temp;
 
-//             dueDate(childSnapshot.val().Deadline);
-//             tasks.push(childSnapshot.val().Deadline);
-//             console.log("alert1");
-//             console.log(tasks[0]);
-//             console.log("alert2");
-//         });
-// =======
-                    taskDiv.innerHTML = html;
-                    pnl.appendChild(taskDiv);
-                }
-            });
-// >>>>>>> aee29bb99cd06012003e5a9a938226e8b1c3664d
-    });
+                                    temp = taskDetails[i];
+                                    taskDetails[i] = taskDetails[j];
+                                    taskDetails[j] = temp;
+
+                                    temp = taskType[i];
+                                    taskType[i] = taskType[j];
+                                    taskType[j] = temp;
+
+                                    temp = taskPriorities[i];
+                                    taskPriorities[i] = taskPriorities[j];
+                                    taskPriorities[j] = temp;
+                                }
+                            }
+                        }
+
+                        //display
+                        for(var i=0; i<taskKeys.length; i++){
+                            tasknumber++;
+                            var key = taskKeys[i];
+
+                            var pnl = document.getElementById("mainDiv");
+                            var taskDiv = document.createElement("div");
+                            taskDiv.id = key;
+
+                            var keyString = key.toString();
+                            var popUpKey = "P"+keyString;
+
+                            var html = 
+                            '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
+                            '<div class="popuptext" id='+popUpKey+'>' + 
+                            '<div class="popupName" >' + 
+                            '<p class="namePopUp">' + taskNames[i] +'</p>' +
+                            '</div>'+
+                            '<p class="deadlinePopUp">' + "Due: "+ taskDeadlines[i]  +'</p>' +
+                            '<p class="detailsPopUp">' + "Details: "+ taskDetails[i]  +'</p>' +
+                            '</div>'+
+                            '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
+                            '<label class="nameLabel">' + taskNames[i]  +'</label>' +
+                            '</br>'+
+                            '<label class="deadlineLabel">' + "Due: "+ taskDeadlines[i]  +'</label>' +
+                            '</div>';
+
+                            taskDiv.innerHTML = html;
+                            pnl.appendChild(taskDiv);
+                        }
+                    });
+});
 }  
 
 
