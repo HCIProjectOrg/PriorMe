@@ -122,6 +122,7 @@ app.initialize();
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
                     taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
+                    console.log( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) )
                 }else if(taskDateYear == todayYear && (taskDateMonth > todayMonth || (taskDateDay >= todayDay && taskDateMonth==todayMonth))){
                     /*
                     Task is in the current year AND:
@@ -137,6 +138,7 @@ app.initialize();
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
                     taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
+                    console.log( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) )
                 }
             }
         });
@@ -164,8 +166,6 @@ app.initialize();
                             }
                         }
 
-                        console.log(minDays);
-
                         //associate priorities with given categories
                         for(var i=0; i<taskKeys.length; i++){
                             var priority;
@@ -182,10 +182,10 @@ app.initialize();
                             }
 
                             //scale based on how much time is left, in comparison to the minimun number of days;
-                            taskPriorities.push(priority * (1/Math.abs(minDays-taskDaysLeft[i]+1)));
-                            console.log(taskPriorities[i]);
+                            taskPriorities.push(priority * (1/Math.abs(taskDaysLeft[i]-minDays)));
                         }
 
+                        //sort
                         for(var i=0; i<taskPriorities.length; i++){
                             for(var j = 0; j<taskPriorities.length; j++){
                                 if(taskPriorities[i]>taskPriorities[j]){
