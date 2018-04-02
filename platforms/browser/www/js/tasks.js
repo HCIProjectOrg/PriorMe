@@ -84,6 +84,7 @@ app.initialize();
     var taskType = [];
     var taskHours = [];
     var taskPriorities =[];
+    var taskDaysLeft = [];
 
     var examPriority = 0;
     var homeworkPriority = 0;
@@ -98,9 +99,9 @@ app.initialize();
     function(snapshot) {
         //get current date, we only want tasks that have not yet passed
         var today = new Date();
-        var todayDay = today.getDate();
-        var todayMonth = (today.getMonth()+1);
-        var todayYear = today.getFullYear();
+        var todayDay = Number(today.getDate());
+        var todayMonth = Number((today.getMonth()+1));
+        var todayYear = Number(today.getFullYear());
         snapshot.forEach(function(childSnapshot) {
 
             var taskDate = childSnapshot.val().Deadline.toString();
@@ -120,6 +121,7 @@ app.initialize();
                     taskDetails.push(childSnapshot.val().Details);
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
+                    taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
                 }else if(taskDateYear == todayYear && (taskDateMonth > todayMonth || (taskDateDay >= todayDay && taskDateMonth==todayMonth))){
                     /*
                     Task is in the current year AND:
@@ -134,6 +136,7 @@ app.initialize();
                     taskDetails.push(childSnapshot.val().Details);
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
+                    taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
                 }
             }
         });
@@ -153,20 +156,33 @@ app.initialize();
 
                     //sort tasks then displayed based on ordering
                     function(){
+                        var minDays = 1000000000;
+
+                        for(var i=0; i<taskKeys.length;i++){
+                            if(taskDaysLeft[i]<minDays){
+                                minDays = taskDaysLeft[i];
+                            }
+                        }
+
+                        console.log(minDays);
 
                         //associate priorities with given categories
                         for(var i=0; i<taskKeys.length; i++){
+                            var priority;
                             if(taskType[i]=="exam"){
-                                taskPriorities.push(examPriority);
+                                priority = examPriority;
                             }else if(taskType[i]=="homework"){
-                                taskPriorities.push(homeworkPriority);
+                                priority = homeworkPriority;
                             }else if(taskType[i]=="project"){
-                                taskPriorities.push(projectPriority);
+                                priority = projectPriority;
                             }else if(taskType[i]=="research"){
-                                taskPriorities.push(researchPriority);
+                                priority = researchPriority;
                             }else{
-                                taskPriorities.push(5);
+                                priority = 5;
                             }
+
+                            taskPriorities.push(priority * (1/Math.abs(minDays-taskDaysLeft[i]+1)));
+                            console.log(taskPriorities[i]);
                         }
 
                         for(var i=0; i<taskPriorities.length; i++){
