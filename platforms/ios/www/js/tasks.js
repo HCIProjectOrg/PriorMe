@@ -122,7 +122,6 @@ app.initialize();
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
                     taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
-                    console.log( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) )
                 }else if(taskDateYear == todayYear && (taskDateMonth > todayMonth || (taskDateDay >= todayDay && taskDateMonth==todayMonth))){
                     /*
                     Task is in the current year AND:
@@ -138,7 +137,6 @@ app.initialize();
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
                     taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
-                    console.log( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) )
                 }
             }
         });
@@ -254,48 +252,10 @@ app.initialize();
 });
 }  
 
-
-    // firebase.database().ref('Task').once('value').then(function(snapshot) {
-    //     var name = snapshot.key() || 'Anonymous';
-    //     document.getElementById('nameLabel').innerText = name;
-    //     var deadline = snapshot.val().Deadline || 'Anonymous';
-    //     document.getElementById('deadlineLabel').innerText = deadline;
-    //     var hours = snapshot.val().Hours || 'Anonymous';
-    //     document.getElementById('hoursLabel').innerText = hours;
-    //     var type = snapshot.val().TaskType || 'Anonymous';
-    //     document.getElementById('taskTypeLabel').innerText = type;
-    // });
-
-    // firebase.database().ref('Task/HomeWork1').once('value').then(function(snapshot) {
-    //     var name = snapshot.val().Hours || 'Anonymous';
-    //     document.getElementById('hoursLabel').innerText = name;
-    //     var deadline = snapshot.val().Deadline || 'Anonymous';
-    //     document.getElementById('deadlineLabel').innerText = deadline;
-    //     var hours = snapshot.val().Hours || 'Anonymous';
-    //     document.getElementById('hoursLabel').innerText = hours;
-    //     var type = snapshot.val().TaskType || 'Anonymous';
-    //     document.getElementById('taskTypeLabel').innerText = type;
-    // });
-
 // When the user clicks on <div>, open the popup
 function myFunction(keyID) {
-    console.log("KEYID: "+ keyID); 
-    //if yes send push notification
-    console.log("Alert1");
-    let notification = new apn.Notification();
     var popup = document.getElementById(keyID);
     popup.classList.toggle("show");
-    console.log("Alert2"); 
-    // notification.alert = "Hello, world!";
-    // console.log("Alert2"); 
-    // notification.badge = 1;
-    // console.log("Alert3"); 
-    // notification.topic = "io.github.node-apn.test-app";
-    // console.log("Alert4"); 
-    // apnProvider.send(notification, deviceToken).then( (result) => {
-    //     console.log("YAYYY"); 
-    // });
-    // console.log("Alert5"); 
 }
 
 //check if task is due tomorrow
