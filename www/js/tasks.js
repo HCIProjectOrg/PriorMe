@@ -21,25 +21,25 @@
 // Shortcuts to DOM Elements.
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('new-post-message');
-var apn = require('apn');
+// var apn = require('apn');
 
-var options = {
-  token: {
-    key: "js/APNsAuthKey_FY7JV87M7A.p8",
-    cert:"aps_development.cer",
-    keyId: "FY7JV87M7A",
-    teamId: "UE6S3WWHDC"
-  },
-  proxy: {
-    host: "10.0.1.45",
-    port: 3000
-  },
-  production: false
-};
+// var options = {
+//   token: {
+//     key: "js/APNsAuthKey_FY7JV87M7A.p8",
+//     cert:"aps_development.cer",
+//     keyId: "FY7JV87M7A",
+//     teamId: "UE6S3WWHDC"
+//   },
+//   proxy: {
+//     host: "10.0.1.45",
+//     port: 3000
+//   },
+//   production: false
+// };
 
-var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
-var myDevice = new apn.Device(deviceToken);
-let apnProvider = new apn.Provider(options);
+// var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
+// var myDevice = new apn.Device(deviceToken);
+// let apnProvider = new apn.Provider(options);
 
 
 var app = {
@@ -70,7 +70,6 @@ var app = {
 };
 
 app.initialize();
-
 
 /**
  * Starts listening for new posts and populates posts lists.
@@ -276,14 +275,29 @@ app.initialize();
     //     document.getElementById('taskTypeLabel').innerText = type;
     // });
 
+
+
 // When the user clicks on <div>, open the popup
 function myFunction(keyID) {
+
+
     console.log("KEYID: "+ keyID); 
     //if yes send push notification
     console.log("Alert1");
-    let notification = new apn.Notification();
-    var popup = document.getElementById(keyID);
-    popup.classList.toggle("show");
+    
+    cordova.plugins.notification.local.hasPermission(function (granted) {
+        console.log('Permission has been granted: ' + granted);
+    });
+
+    // let notification = new apn.Notification();
+    // var popup = document.getElementById(keyID);
+    // popup.classList.toggle("show");
+    cordova.plugins.notification.local.schedule({
+        title: 'My first notification',
+        text: 'Thats pretty easy...',
+        foreground: true,
+        trigger: { in: 1, unit: 'second' }
+    });
     console.log("Alert2"); 
     // notification.alert = "Hello, world!";
     // console.log("Alert2"); 

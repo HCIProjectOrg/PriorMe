@@ -206,7 +206,7 @@ function startDatabaseQueries() {
             '<div class="chatMessage user">'+ 
                 //Date
                 '<p class="dateParagrahUser">' + childSnapshot.val().Time  +'</p>' +
-                '<div class= chatbotMessage >'+
+                '<div class= chatuserMessage>'+
                     //Sender
                     // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
                     //Message
@@ -219,7 +219,7 @@ function startDatabaseQueries() {
             '<div class="chatMessage bot">'+ 
                 //Date
                 '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
-                '<div class= chatbotMessage >'+
+                '<div class= chatbotMessage>'+
                     //Sender
                     // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
                     //Message

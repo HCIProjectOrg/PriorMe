@@ -193,20 +193,38 @@ img {
 
 .chatMessage.user{
     float: right;
+    /*color: ;*/
     /*text-align: right;*/
 }
 
 .chatMessage.bot{
     float:left;
+    /*background-color: #011627;*/
     /*display:block;*/
     /*text-align: left;*/
 }
 
-.chatbotMessage{
+/*.chatbotMessage{
     padding: 1px;
     border-radius: 5pt;
     background-color: #B91372;
     color:white;
+    text-align: left;
+}*/
+.chatbotMessage{
+    padding: 1px;
+    border-radius: 5pt;
+    background-color: #41EAD4;
+    color:white;
+    font-weight: bold;
+    text-align: left;
+}
+.chatuserMessage{
+    padding: 1px;
+    border-radius: 5pt;
+    background-color: #B91372;
+    color:white;
+    font-weight: bold;
     text-align: left;
 }
 

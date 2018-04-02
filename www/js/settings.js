@@ -31,8 +31,6 @@ var projectStress = "0";
 var researchStudy = "0";
 var researchStress = "0";
 
-
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -61,6 +59,43 @@ var app = {
 };
 
 app.initialize();
+
+function getSettings(){
+    console.log("IN GET SETTINGS");
+    var query = firebase.database().ref("Settings").orderByKey();
+    query.once("value", function(snapshot) {
+        var name = snapshot.val().Name;
+        var email = snapshot.val().Email;
+        console.log("User's Name is: "+ name + " User's Email is: "+email);
+        document.getElementById("name").innerHTML = name;
+        document.getElementById("email").innerHTML = email;
+    });
+    // document.getElementById("name").addEventListener("keyup", changeName);
+    // document.getElementById("email").addEventListener("keyup", changeEmail);
+}
+
+
+function changeName(){
+    //change name or password
+    var name = document.getElementById("name").innerHTML = name;
+    var email = document.getElementById("email").innerHTML = email;
+    console.log("changing name");
+    firebase.database().ref('Settings').update({
+        Email: email,
+        Name: name
+    });
+}
+
+function changeEmail(){
+    //change name or password
+    var name = document.getElementById("name").innerHTML = name;
+    var email = document.getElementById("email").innerHTML = email;
+    console.log("changing email");
+    firebase.database().ref('Settings').update({
+        Email: email,
+        Name: name
+    });
+}
 
 // Saves message on form submit.
 Settingsform.onsubmit = function(e) {
@@ -111,6 +146,16 @@ function updatePriorities(exam, hw, proj, research) {
         projectPriority: proj,
         researchPriority: research
     });
+
+    var name = document.getElementById("name").innerHTML = name;
+    var email = document.getElementById("email").innerHTML = email;
+    console.log("changing settings");
+    firebase.database().ref('Settings').update({
+        Email: email,
+        Name: name
+    });
+
+    // getSettings()
 }
 
 function isChecked(checkboxName){

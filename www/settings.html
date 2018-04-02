@@ -41,7 +41,7 @@
     <link rel="stylesheet" href="css/settings.css" />
     <title>Settings</title>
 </head>
-<body>
+<body onload="getSettings();">
     <div class="app">
     	<div class ="heading">
             <div id="mySidenav" class="sidenav">
@@ -63,9 +63,10 @@
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
             }
-            </script>    		<img src="img/man-user.png" alt="Profile Icon" class="userIcon">
-        	<h1 contenteditable="true" >User's Name</h1>
-        	<h2 contenteditable="true" >Email</h2>
+            </script>    		
+            <img src="img/man-user.png" alt="Profile Icon" class="userIcon">
+        	<h1 contenteditable="true" id ="name">User's Name</h1>
+        	<h2 contenteditable="true" id = "email">Email</h2>
         	
     	</div>
     	<div class ="mainDiv"> 
@@ -143,6 +144,7 @@
         // Get a reference to the database service
         var database = firebase.database();
     </script>
+
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/settings.js"></script>
     <script type="text/javascript">  
