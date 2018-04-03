@@ -258,7 +258,8 @@ app.initialize();
                             '<p class="namePopUp">' + taskNames[i] +'</p>' +
                             '</div>'+
                             '<p class="deadlinePopUp">' + "Due: "+ taskDeadlines[i]  +'</p>' +
-                            '<p class="detailsPopUp">' + "Details: "+ taskDetails[i]  +'</p>' +
+                            '<p class="detailsPopUp">' + "Hours: "+ taskHours[i]  +'</p>' +
+                            '<p class="detailsPopUp">' + "Type: "+ taskType[i]  +'</p>' +
                             '</div>'+
                             '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
                             '<label class="nameLabel">' + taskNames[i]  +'</label>' +

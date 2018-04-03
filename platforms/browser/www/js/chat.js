@@ -57,7 +57,7 @@ messageForm.onsubmit = function(e) {
     var text = messageInput.value;
     if (text) {
         writeNewPost(text);  
-		setTimeout(function () {send(text).then(function() {})}, 1500);
+		setTimeout(function () {send(text).then(function() {})}, 2000);
     }
     messageInput.value = '';
 };
@@ -159,6 +159,10 @@ function getDialogFlowUpdate(){
             oldDate = item.Date;
         }
 
+		//Commit to github
+		var msg = item.Message;
+		msg = msg.replace(/\n/g, "<br>");
+					
         html = html + 
         '<div class="chatMessage user">'+ 
             //Date
@@ -167,7 +171,7 @@ function getDialogFlowUpdate(){
                 //Sender
                 // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
                 //Message
-                '<p class="messageParagrah">' + item.Message  +'</p>' +
+                '<p class="messageParagrah">' + msg /*item.Message*/  +'</p>' +
             '</div>'+
         '</div>';
 
@@ -177,6 +181,8 @@ function getDialogFlowUpdate(){
 }
 
 function startDatabaseQueries() {
+	//Committ to github
+	send("Hi");
     var tasknumber = 0; 
     var query = firebase.database().ref("Messages").orderByKey();
     query.once("value").then(function(snapshot) {
@@ -201,16 +207,20 @@ function startDatabaseQueries() {
             '</div>'; 
         }
 
+		//Commit to github
+		var msg = childSnapshot.val().Message;
+		msg = msg.replace(/\n/g, "<br>");
+		
         if(childSnapshot.val().Sender  == "user"){
             html = html + 
             '<div class="chatMessage user">'+ 
                 //Date
                 '<p class="dateParagrahUser">' + childSnapshot.val().Time  +'</p>' +
-                '<div class= chatuserMessage>'+
+                '<div class= chatbotMessage >'+
                     //Sender
                     // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
                     //Message
-                    '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
                 '</div>'+
             '</div>';
         }
@@ -219,11 +229,11 @@ function startDatabaseQueries() {
             '<div class="chatMessage bot">'+ 
                 //Date
                 '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
-                '<div class= chatbotMessage>'+
+                '<div class= chatbotMessage >'+
                     //Sender
                     // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
                     //Message
-                    '<p class="messageParagrah">' + childSnapshot.val().Message  +'</p>' +
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
                 '</div>'+
             '</div>';  
         }
