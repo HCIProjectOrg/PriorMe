@@ -216,7 +216,7 @@ function startDatabaseQueries() {
             '<div class="chatMessage user">'+ 
                 //Date
                 '<p class="dateParagrahUser">' + childSnapshot.val().Time  +'</p>' +
-                '<div class= chatbotMessage >'+
+                '<div class= chatuserMessage >'+
                     //Sender
                     // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
                     //Message

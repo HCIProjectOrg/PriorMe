@@ -67,8 +67,8 @@ function getSettings(){
         var name = snapshot.val().Name;
         var email = snapshot.val().Email;
         console.log("User's Name is: "+ name + " User's Email is: "+email);
-        document.getElementById("name").innerHTML = name;
-        document.getElementById("email").innerHTML = email;
+//        document.getElementById("name").innerHTML = "Jesse";
+//        document.getElementById("email").innerHTML = email;
     });
     // document.getElementById("name").addEventListener("keyup", changeName);
     // document.getElementById("email").addEventListener("keyup", changeEmail);
