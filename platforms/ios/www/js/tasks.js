@@ -272,7 +272,7 @@ app.initialize();
                     });
 });
 }  
-// 
+
 // <<<<<<< HEAD
 
     // firebase.database().ref('Task').once('value').then(function(snapshot) {
@@ -331,7 +331,7 @@ app.initialize();
 //     //     console.log("YAYYY"); 
 //     // });
 //     // console.log("Alert5"); 
-// =======
+// // =======
 // When the user clicks on <div>, open the popup
 function myFunction(keyID) {
     var popup = document.getElementById(keyID);
