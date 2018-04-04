@@ -50,17 +50,32 @@ app.initialize();
  * Starts listening for new posts and populates posts lists.
  */
 function startDatabaseQueries(c, date) {
-  console.log("chicken");
-    var timespan = 7;
+    var timespan = 7, tasknumber = 0, homework_p = 1;
+    var exam_p = 1, project_p = 1, research_p = 1;
     var tasknumber = 0;
     var y = c.CurrentYear;
     var m = c.CurrentMonth;
     var lastDateOfCurrentMonth = new Date(y, m+1, 0).getDate();
     document.getElementById("tasksDiv").innerHTML = "";
 
+    var init_query = firebase.database().ref("Priorities");
+    init_query.once("value").then(
+      function(snapshot){
+        homework_p = snapshot.val().homeworkPrioirity;
+        exam_p = snapshot.val().examPriority;
+        project_p = snapshot.val().projectPriority;
+        research_p = snapshot.val().researchPriority;
+      }
+    );
+
     var query = firebase.database().ref("Task").orderByKey();
     query.once("value").then(function(snapshot) {
         snapshot.forEach(function(childSnapshot) {
+            if(childSnapshot.val().TaskType == "homework") timespan = homework_p + 2;
+            else if(childSnapshot.val().TaskType == "exam") timespan = exam_p + 2;
+            else if(childSnapshot.val().TaskType == "project") timespan = project_p + 2;
+            else if(childSnapshot.val().TaskType == "research") timespan = research_p + 2;
+
             if (// if a week doesn't spill into the next month
                 (y == Number(childSnapshot.val().Deadline.substring(0,4)) &&
                 (m+1) == Number(childSnapshot.val().Deadline.substring(5,7)) &&
