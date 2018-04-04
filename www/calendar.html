@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <!--
     Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
+
     Licensed to the Apache Software Foundation (ASF) under one
     or more contributor license agreements.  See the NOTICE file
     distributed with this work for additional information
@@ -8,7 +9,9 @@
     to you under the Apache License, Version 2.0 (the
     "License"); you may not use this file except in compliance
     with the License.  You may obtain a copy of the License at
+
     http://www.apache.org/licenses/LICENSE-2.0
+
     Unless required by applicable law or agreed to in writing,
     software distributed under the License is distributed on an
     "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
@@ -38,8 +41,9 @@
     <link rel="stylesheet" href="css/calendar.css" />
     <title>Calendar</title>
 </head>
-<body onload="startDatabaseQueries()">
-    <!-- ;getDate();getDay();displayCalendar()"> -->
+	<body onload="startCalendar()">
+<!-- <body onload="startDatabaseQueries();getDate();getDay()"> -->
+<!-- <body onload="startDatabaseQueries();startCalendar()"> -->
     <div class="app">
       <div class="heading">
             <div id="mySidenav" class="sidenav">
@@ -57,39 +61,35 @@
             function openNav() {
                 document.getElementById("mySidenav").style.width = "250px";
             }
+
             function closeNav() {
                 document.getElementById("mySidenav").style.width = "0";
             }
             </script>
             <h1>Calendar</h1>
       </div>
-      <div class="divcalendar">
-        <div id="calendaroverallcontrols">
-            <div id="calendarmonthcontrols">
-                <a id="btnPrevYr" href="#" title="Previous Year">
-                    <span><<</span>
-                </a>
-                <a id="btnPrev" href="#" title="Previous Month">
-                    <span><</span>
-                </a>
-                <div id="monthandyear"></div>
-                <a id="btnNext" href="#" title="Next Month">
-                    <span>></span>
-                </a>
-                <a id="btnNextYr" href="#" title="Next Year">
-                    <span>>></span>
-                </a>      
-            </div>
-        </div>
-      </div>
-      <div id="divcalendartable"></div>
       <div class="mainDiv">
-        <!--Add buttons to initiate auth sequence and sign out-->
-<!--         <button id="authorize-button">Authorize</button>
-        <button id="signout-button">Sign Out</button> -->
-
+      	<div class="divcalendar">
+        	<div id="calendaroverallcontrols">
+            	<div id="calendarmonthcontrols">
+                	<a id="btnPrevYr" href="#" title="Previous Year">
+                    	<span><<</span>
+                	</a>
+                	<a id="btnPrev" href="#" title="Previous Month">
+                    	<span><</span>
+                	</a>
+                	<div id="monthandyear"></div>
+                	<a id="btnNext" href="#" title="Next Month">
+                    	<span>></span>
+                	</a>
+                	<a id="btnNextYr" href="#" title="Next Year">
+                    	<span>>></span>
+                	</a>      
+            	</div>
+        	</div>
+      	</div>
+      <div id="divcalendartable"></div>
         <pre id="content"></pre>
-
         <div class="startTasks"></div>
         <div class="date">
             <p class="showDate" id="date">Date</p>
@@ -108,19 +108,12 @@
     <script>
         // Initialize Firebase
         var config = {
-            apiKey: "AIzaSyCq2-D4syP32DOvEAmgt_jnE-b_47N_1fw",
-            authDomain: "priorme-9be05.firebaseapp.com",
-            databaseURL: "https://priorme-9be05.firebaseio.com",
-            projectId: "priorme-9be05",
-            storageBucket: "priorme-9be05.appspot.com",
-            messagingSenderId: "65629113150"
-
-            // apiKey: "AIzaSyBoDZet9jdCyYbuBWx4ed7CbK7gqTwk9ME",
-            // authDomain: "priorme-63e89.firebaseapp.com",
-            // databaseURL: "https://priorme-63e89.firebaseio.com",
-            // projectId: "priorme-63e89",
-            // storageBucket: "",
-            // messagingSenderId: "1029062203310"
+           apiKey: "AIzaSyCq2-D4syP32DOvEAmgt_jnE-b_47N_1fw",
+           authDomain: "priorme-9be05.firebaseapp.com",
+           databaseURL: "https://priorme-9be05.firebaseio.com",
+           projectId: "priorme-9be05",
+           storageBucket: "priorme-9be05.appspot.com",
+           messagingSenderId: "65629113150"
         };
         firebase.initializeApp(config);
         // Get a reference to the database service
@@ -133,3 +126,5 @@
     </script>
 </body>
 </html>
+    
+

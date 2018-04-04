@@ -17,10 +17,6 @@
  * under the License.
  */
 
-// Shortcuts to DOM Elements.
-var messageForm = document.getElementById('message-form');
-var messageInput = document.getElementById('new-post-message');
-
 var app = {
     // Application Constructor
     initialize: function() {
@@ -44,13 +40,82 @@ var app = {
         listeningElement.setAttribute('style', 'display:none;');
         receivedElement.setAttribute('style', 'display:block;');
 
-        console.log('Received Event: ' + id);
+        // console.log('Received Event: ' + id);
     }
 };
 
 app.initialize();
 
-"use strict";
+/**
+ * Starts listening for new posts and populates posts lists.
+ */
+function startDatabaseQueries(c, date) {
+  console.log("chicken");
+    var timespan = 7;
+    var tasknumber = 0;
+    var y = c.CurrentYear;
+    var m = c.CurrentMonth;
+    var lastDateOfCurrentMonth = new Date(y, m+1, 0).getDate();
+    document.getElementById("tasksDiv").innerHTML = "";
+
+    var query = firebase.database().ref("Task").orderByKey();
+    query.once("value").then(function(snapshot) {
+        snapshot.forEach(function(childSnapshot) {
+            if (// if a week doesn't spill into the next month
+                (y == Number(childSnapshot.val().Deadline.substring(0,4)) &&
+                (m+1) == Number(childSnapshot.val().Deadline.substring(5,7)) &&
+                date <= Number(childSnapshot.val().Deadline.substring(8,10)) &&
+                Number(childSnapshot.val().Deadline.substring(8,10)) <= (date+timespan)) ||
+                // if week spills into the next month
+                (y == Number(childSnapshot.val().Deadline.substring(0,4)) &&
+                (m+2) == Number(childSnapshot.val().Deadline.substring(5,7)) &&
+                lastDateOfCurrentMonth < (date+timespan) &&
+                Number(childSnapshot.val().Deadline.substring(8,10)) <= ((date+timespan)%lastDateOfCurrentMonth)) ||
+                // if week spills into the next year
+                ((y+1) == Number(childSnapshot.val().Deadline.substring(0,4)) &&
+                (m+1) == 12 &&
+                lastDateOfCurrentMonth < (date+timespan) &&
+                Number(childSnapshot.val().Deadline.substring(8,10)) <= ((date+timespan)%lastDateOfCurrentMonth))
+                )
+            {
+              tasknumber++;
+              var key = childSnapshot.key;
+
+              var pnl = document.getElementById("tasksDiv");
+              var taskDiv = document.createElement("div");
+              taskDiv.id = key;
+
+               var keyString = key.toString();
+               var popUpKey = "P"+keyString;
+               console.log("popUpKey: " + popUpKey);
+
+              var html = 
+              '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
+                      '<div class="popuptext" id='+popUpKey+'>' + 
+                          '<div class="popupName" >' + 
+                              '<p class="namePopUp">' + childSnapshot.val().Name +'</p>' +
+                          '</div>'+
+                          '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().Deadline  +'</p>' +
+                          '<p class="detailsPopUp">' + "Task: "+ childSnapshot.val().TaskType  +'</p>' +
+                          '<p class="detailsPopUp">' + "Estimated Hours: "+ childSnapshot.val().Hours  +'</p>' +
+                      '</div>'+
+                      '<label class="nameLabel">' + childSnapshot.val().Name  +'</label>' +
+              '</div>';
+
+              taskDiv.innerHTML = html;
+              pnl.appendChild(taskDiv);
+            }
+        });
+    });
+}  
+
+// When the user clicks on <div>, open the popup
+function myFunction(keyID) {
+    console.log("KEYID: "+ keyID); 
+    var popup = document.getElementById(keyID);
+    popup.classList.toggle("show");
+}
+
 var Calendar = function(cal) {
   var date = new Date();
   var format = cal.Format;
@@ -103,6 +168,8 @@ Calendar.prototype.selectDate = function(cell){
   var d = new Date(this.CurrentYear, this.CurrentMonth, Number(cell.innerHTML));
   document.getElementById("date").innerHTML = d.getDate();
   document.getElementById("day").innerHTML = this.Days[d.getDay()];
+
+  startDatabaseQueries(this,d.getDate());
 }
 
 Calendar.prototype.updateCalendar = function() {
@@ -155,16 +222,15 @@ Calendar.prototype.Calendar = function(y, m) {
   else { p = dm = firstDayOfCurrentMonth == 0 ? -6 : 1; }
 
   var cellvalue;
-  for (var date, i=0, z0=0; z0<6; z0++) {
+  var date;
+  for (row=0; row<6; row++) {
     html += '<tr>';
-    for (var z0a = 0; z0a < 7; z0a++) {
-      date = i + dm - firstDayOfCurrentMonth;
+    for (var col = 0; col < 7; col++) {
+      date = ((7*row)+col) + dm - firstDayOfCurrentMonth;
       // Dates from prev month
       if (date < 1){
         cellvalue = lastDateOfLastMonth - firstDayOfCurrentMonth + p++;
         html += '<td id="prevmonthdates">' + (cellvalue) +
-              // '<span id="cellvaluespan">' + (cellvalue) + '</span><br/>' + 
-              // '<ul id="cellvaluelist"><li>apples</li><li>bananas</li><li>pineapples</li></ul>' + 
             '</td>';
       // Dates from next month
       } else if ( date > lastDateOfCurrentMonth){
@@ -178,10 +244,9 @@ Calendar.prototype.Calendar = function(y, m) {
         p = 1;
       }
       
-      if (i % 7 == 6 && date >= lastDateOfCurrentMonth) {
-        z0 = 10; // no more rows
+      if (((7*row)+col) % 7 == 6 && date >= lastDateOfCurrentMonth) {
+        row = 10; // no more rows
       }
-      i++;
     }
     html += '</tr>';
   }
@@ -195,7 +260,8 @@ Calendar.prototype.Calendar = function(y, m) {
 };
 
 // Displays the initial calendar when the window is loaded
-window.onload = function() {
+// window.onload = function() {
+function startCalendar() { 
   // Creates a calendar object
   var c = new Calendar({
     ParentID:"divcalendartable",
@@ -208,69 +274,10 @@ window.onload = function() {
   var d = new Date();
   document.getElementById("date").innerHTML = d.getDate();
   document.getElementById("day").innerHTML = c.Days[d.getDay()];
-
+  startDatabaseQueries(c, d.getDate());
 }
 
 // Get element by id
 function getId(id) {
   return document.getElementById(id);
 }
-
-/**
- * Starts listening for new posts and populates posts lists.
- */
-function startDatabaseQueries() {
-    var tasknumber = 0; 
-
-    var query = firebase.database().ref("To_Do").orderByKey();
-    query.once("value").then(function(snapshot) {
-        snapshot.forEach(function(childSnapshot) {
-            tasknumber++;
-            var key = childSnapshot.key;
-
-            var pnl = document.getElementById("tasksDiv");
-            var taskDiv = document.createElement("div");
-            taskDiv.id = key;
-
-             var keyString = key.toString();
-             var popUpKey = "P"+keyString;
-             console.log("popUpKey: " + popUpKey);
-            // childSnapshot.val().Hours
-            // taskDiv.innerHTML = tasknumber + " " + childSnapshot.key +  " Due Date: " + childSnapshot.val().Deadline ;
-
-            var html = 
-            '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
-                    '<div class="popuptext" id='+popUpKey+'>' + 
-                        '<div class="popupName" >' + 
-                            '<p class="namePopUp">' + childSnapshot.key +'</p>' +
-                        '</div>'+
-                        '<p class="deadlinePopUp">' + "Due: "+ childSnapshot.val().DaysLeft  +'</p>' +
-                        '<p class="detailsPopUp">' + "Details: "+ childSnapshot.val().TaskName  +'</p>' +
-                    '</div>'+
-                    '<label class="nameLabel">' + childSnapshot.key  +'</label>' +
-            '</div>';
-
-            taskDiv.innerHTML = html;
-            pnl.appendChild(taskDiv);
-        });
-    });
-}  
-
-// When the user clicks on <div>, open the popup
-function myFunction(keyID) {
-    console.log("KEYID: "+ keyID); 
-    var popup = document.getElementById(keyID);
-    popup.classList.toggle("show");
-}
-
-
-
-// Saves message on form submit.
-messageForm.onsubmit = function(e) {
-    e.preventDefault();
-    var text = messageInput.value;
-    if (text) {
-        writeNewPost(text).then(function() {});  
-    }
-    messageInput.value = '';
-};
