@@ -1,0 +1,447 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+   /*Color Pallet 2
+ 011627-- dark blue
+ FF0022 -- red
+ 41EAD4-- aqua
+ FDFFFC  -- white
+ B91372 -- magenta
+ */
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+
+html{
+    box-sizing: border-box;
+}
+*,*:before, *:after{
+    box-sizing: inherit;
+}
+
+body {
+    -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
+    -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
+    -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
+    background-color:#FDFFFC;
+    /*background-image:linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-ms-linear-gradient(top, #A7A7A7 0%, #E4E4E4 51%);
+    background-image:-webkit-gradient(
+        linear,
+        left top,
+        left bottom,
+        color-stop(0, #A7A7A7),
+        color-stop(0.51, #E4E4E4)
+    );
+    background-attachment:fixed;*/
+    font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
+    font-size:12px;
+    height:100%;
+    margin:0px;
+    padding:0px;
+    text-transform:none;
+    width:100%;
+}
+
+
+/* Portrait layout (default) */
+.app {
+    /*background:url(../img/logo.png) no-repeat center top; /* 170px x 200px */
+    /*position:fixed;             /* position in the center of the screen */
+    /*left:50%;
+    top:50%;*/
+    /*height:50px;                   /* text area height */
+    /*width:225px;                   /* text area width */
+    /*text-align:center;
+    /*padding:180px 0px 0px 0px;     /* image height is 200px (bottom 20px are overlapped with text) */
+    /*margin:-115px 0px 0px -112px;  /* offset vertical: half of image height and text area height */
+                                   /* offset horizontal: half of text area width */
+}
+
+/* Landscape layout (with min-width) */
+@media screen and (min-aspect-ratio: 1/1) and (min-width:400px) {
+    .app {
+        background-position:left center;
+        padding:75px 0px 75px 170px;  /* padding-top + padding-bottom + text area = image height */
+        margin:-90px 0px 0px -198px;  /* offset vertical: half of image height */
+                                      /* offset horizontal: half of image width and text area width */
+    }
+}
+
+
+/* Headers and Footers 
+---------------------*/ 
+h1 {
+    /*position:fixed;             /* position in the center of the screen */
+    /*left:50%;*/
+    font-size:24px;
+    font-weight:bold;
+    color: #41EAD4;
+    /*margin:0px;
+    overflow:visible;
+    padding:0px;*/
+    text-align:center;
+    text-transform: none;
+}
+
+
+.heading{
+  border-bottom-style: solid;
+  border-color: #011627;
+}
+
+.event {
+    border-radius:4px;
+    -webkit-border-radius:4px;
+    color:#FFFFFF;
+    font-size:12px;
+    margin:0px 30px;
+    padding:2px 0px;
+}
+
+.event.listening {
+    background-color:#333333;
+    display:block;
+}
+
+.event.received {
+    background-color:#4B946A;
+    display:none;
+}
+
+@keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+@-webkit-keyframes fade {
+    from { opacity: 1.0; }
+    50% { opacity: 0.4; }
+    to { opacity: 1.0; }
+}
+ 
+.blink {
+    animation:fade 3000ms infinite;
+    -webkit-animation:fade 3000ms infinite;
+}
+
+/*.saveButton {
+  text-align: center;
+  text-decoration: none;
+  background-color: #2665e2;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: 24px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 30%;
+}*/
+
+/*Images*/
+img {
+    width: 50px;
+    height: 50px;
+}
+.menu{
+  position: absolute;
+  right: 0px;
+/*    width: 300px;
+    border: 3px solid #73AD21;
+    padding: 10px; */
+}
+
+/* Tasks */
+.startTasks{
+    border-top: 2pt solid;
+    border-color: #011627;
+}
+
+.date{
+    font-weight: bold;
+    color:#FF0022;
+    padding: 0px;
+    padding-top: 10px;
+    padding-left: 5px;
+    font-size: 20pt;
+    width:20%;
+    float: left;
+    text-align:center;
+}
+
+.showDate{
+    padding: 0;
+    margin: 0;
+}
+
+.tasks {
+    width: 80%;
+    float: left;
+}
+
+.task {
+    position: relative;
+    display: block;
+    cursor: pointer;
+    border: solid;
+    border-color: #011627;
+    margin: 10px 5px;
+    margin-right: 10px;
+    padding:2px;
+    text-transform: none;
+}
+
+.tasknumberLabel, .nameLabel {
+    font-size: 16pt;
+    color: #B91372;
+}
+
+.deadlineLabel{
+    font-size: 12pt;
+    display: block;
+    text-align:right;
+    padding-right: 10px;
+}
+
+/* Popup */
+.popuptext {
+    visibility: hidden;
+    width: 250px;
+    background-color: #011627;
+    color: #FDFFFC;
+    text-align: center;
+    border-radius: 6px;
+    position: fixed;
+    z-index: 1;
+    left:20%;
+    top:30%;
+}
+
+.popupName{
+    border-bottom: 2px solid;
+}
+
+.namePopUp{
+    font-size: 20pt;
+}
+.deadlinePopUp, .detailsPopUp {
+     font-size: 16pt;
+}
+.deadlinePopUp{
+    color:#FF0022;
+}
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.task .show {
+    visibility: visible;
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+    from {opacity: 0;} 
+    to {opacity: 1;}
+}
+
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity:1 ;}
+}
+
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Stay on top */
+    top: 0; /* Stay at the top */
+    right: 0;
+    background-color: #111; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+th {
+  border: 1px solid #A8A8A8;
+  vertical-align: top;
+}
+
+td {
+  /*height: 150px;*/
+  width: 150px;
+  padding: 10px;
+  border: 1px solid #A8A8A8;
+  text-align: center;
+  /*vertical-align: top;*/
+}
+
+.divcalendar {
+  padding: 15px;
+    float:center;
+    /*background-color: #FFCC00;*/
+}
+
+/* Wrapper div. That makes the inner div into an inline element that can be centered with text-align.*/
+#calendaroverallcontrols {
+  text-align: center;
+}
+
+/* This is a fluid div as width will be changing */
+#calendarmonthcontrols {
+  display: inline-block;
+}
+
+#calendarmonthcontrols > div, #calendarmonthcontrols > a {
+  display: inline-block;
+}    
+
+#btnPrevYr {
+  text-decoration: none;
+  font-size: 25px;
+  vertical-align: middle;
+  /*background: #00FFCC;*/      
+}
+
+#btnPrev {
+  text-decoration: none;
+  font-size: 25px;
+  margin-left: 20px;
+  vertical-align: middle;
+  /*background: #00FFCC;*/
+}    
+
+#monthandyearspan {
+  width: 50px;
+  font-size: 20px;
+  font-weight: bold;
+  margin-left: 20px;
+  margin-right: 20px;
+  vertical-align: middle;
+}    
+
+#monthandyear {
+  vertical-align: middle;
+}
+
+#btnNext {
+  text-decoration: none;
+  font-size: 25px;
+  margin-right: 20px;
+  vertical-align: middle;
+  /*background: #00FFCC;*/
+}
+
+#btnNextYr {
+  text-decoration: none;
+  font-size: 25px;
+  vertical-align: middle;
+  /*background: #00FFCC;*/
+}        
+
+#divcalendartable {
+  clear: both;
+}
+
+.daysheader {
+  background: #C0C0C0;
+  height: auto;
+  text-align: center;
+}
+
+#prevmonthdates {
+  background-color: #E0E0E0;
+}
+
+#nextmonthdates {
+  background-color: #E0E0E0;
+}
+
+#currentmonthdates {
+  background-color: #FFFFFF;
+}
+
+#selecteddate {
+  background-color: #FFEFD5;  
+}
+
+.todaysdate {
+  border: 3px solid #E494FA;
+}
+
+#cellvaluespan {
+  background: #FF0000;
+}
+
+#cellvaluelist {
+  background: #FFCC00;
+}        
+
+.swim {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80%;
+  text-align: center;
+  background: #445511;
+  color: #F5F5F5;
+  margin-bottom: 5px;
+  padding: 5px;
+}
+
+.chrono {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 80%;
+  text-align: center;
+  background: #778899;
+  color: #F5F5F5;
+  margin-bottom: 5px;
+  padding: 5px;
+}

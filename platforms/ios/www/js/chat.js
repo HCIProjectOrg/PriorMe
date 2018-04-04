@@ -131,6 +131,7 @@ function setResponse(val){
 				
 	$("#chat_div").chatbox("option", "boxManager").addMsg("PriorMe",htmlTxt);
 }
+
 function getDialogFlowUpdate(){
 	firebase.database().ref('Messages').once('value', snapshot => {
         const todoList = snapshot.val();
@@ -162,18 +163,18 @@ function getDialogFlowUpdate(){
 		//Commit to github
 		var msg = item.Message;
 		msg = msg.replace(/\n/g, "<br>");
-					
-        html = html + 
-        '<div class="chatMessage user">'+ 
-            //Date
-            '<p class="dateParagrahUser">' + item.Time  +'</p>' +
-            '<div class= chatbotMessage >'+
-                //Sender
-                // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
-                //Message
-                '<p class="messageParagrah">' + msg /*item.Message*/  +'</p>' +
-            '</div>'+
-        '</div>';
+
+        html = html +  
+            '<div class="chatMessage bot">'+ 
+                //Date
+                '<p class="dateParagrahBot">' + item.Time  +'</p>' +
+                '<div class= chatbotMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';  
 
         taskDiv.innerHTML = html;
         mDiv.appendChild(taskDiv);
@@ -269,20 +270,50 @@ function getNewUpdate(){
             oldDate = newPost.Date;
         }
 
-        html = html + 
-        '<div class="chatMessage user">'+ 
-            //Date
-            '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
-            '<div class= chatbotMessage >'+
-                //Sender
-                // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
-                //Message
-                '<p class="messageParagrah">' + newPost.Message  +'</p>' +
-            '</div>'+
-        '</div>';
+        // if(childSnapshot.val().Sender  == "user"){
+            html = html + 
+            '<div class="chatMessage user">'+ 
+                //Date
+                '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
+                '<div class= chatuserMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + newPost.Message /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';
+            taskDiv.innerHTML = html;
+        	mDiv.appendChild(taskDiv);
+        // }
+        // else{
+        //     html = html +  
+        //     '<div class="chatMessage bot">'+ 
+        //         //Date
+        //         '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
+        //         '<div class= chatbotMessage >'+
+        //             //Sender
+        //             // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+        //             //Message
+        //             '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+        //         '</div>'+
+        //     '</div>';  
+        //     taskDiv.innerHTML = html;
+        // 	mDiv.appendChild(taskDiv);
+        // }
 
-        taskDiv.innerHTML = html;
-        mDiv.appendChild(taskDiv);
+        // html = html + 
+        // '<div class="chatMessage user">'+ 
+        //     //Date
+        //     '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
+        //     '<div class= chatbotMessage >'+
+        //         //Sender
+        //         // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
+        //         //Message
+        //         '<p class="messageParagrah">' + newPost.Message  +'</p>' +
+        //     '</div>'+
+        // '</div>';
+
+
     }); 
 }
 
