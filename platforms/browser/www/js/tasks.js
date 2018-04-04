@@ -21,47 +21,6 @@
 // Shortcuts to DOM Elements.
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('new-post-message');
-// <<<<<<< HEAD
-// var apn = require('apn');
-
-// var options = {
-//   token: {
-//     key: "js/APNsAuthKey_FY7JV87M7A.p8",
-//     cert:"aps_development.cer",
-//     keyId: "FY7JV87M7A",
-//     teamId: "UE6S3WWHDC"
-//   },
-//   proxy: {
-//     host: "10.0.1.45",
-//     port: 3000
-//   },
-//   production: false
-// };
-
-// var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
-// var myDevice = new apn.Device(deviceToken);
-// let apnProvider = new apn.Provider(options);
-// =======
-// var apn = require('apn');
-
-// var options = {
-//   token: {
-//     key: "js/APNsAuthKey_FY7JV87M7A.p8",
-//     cert:"aps_development.cer",
-//     keyId: "FY7JV87M7A",
-//     teamId: "UE6S3WWHDC"
-// },
-// proxy: {
-//     host: "10.0.1.45",
-//     port: 3000
-// },
-// production: false
-// };
-
-// var deviceToken = "6ba9156b77ca416f158c2bcfc4d8d6897101461ebe8fa246d29bf25a91e58373";
-// var myDevice = new apn.Device(deviceToken);
-// let apnProvider = new apn.Provider(options);
-// >>>>>>> 6feec06d0a5390477105c89e1fda49824cb8ae01
 
 
 var app = {
