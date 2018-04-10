@@ -212,6 +212,16 @@ img {
     color: #B91372;
 }
 
+.deleteButton{
+/*    clear:right;
+    display: inline;
+    text-align:right;*/
+    float:right;
+    clear:right;
+    width: 25px;
+    height: 25px;
+}
+
 /* Popup */
 .popuptext {
     visibility: hidden;

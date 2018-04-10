@@ -211,17 +211,19 @@ app.initialize();
                             var popUpKey = "P"+keyString;
 
                             var html = 
-                            '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
-                            '<div class="popuptext" id='+popUpKey+'>' + 
-                            '<div class="popupName" >' + 
-                            '<p class="namePopUp">' + taskNames[i] +'</p>' +
-                            '</div>'+
-                            '<p class="deadlinePopUp">' + "Due: "+ taskDeadlines[i]  +'</p>' +
-                            '<p class="detailsPopUp">' + "Hours: "+ taskHours[i]  +'</p>' +
-                            '<p class="detailsPopUp">' + "Type: "+ taskType[i]  +'</p>' +
-                            '</div>'+
+                            '<div class="task" >'+ 
+	                            '<div class="popuptext" id='+popUpKey+'>' + 
+		                            '<div class="popupName" >' + 
+			                            '<p class="namePopUp">' + taskNames[i] +'</p>' +
+		                            '</div>'+
+		                            '<p class="deadlinePopUp">' + "Due: "+ taskDeadlines[i]  +'</p>' +
+		                            '<p class="detailsPopUp">' + "Hours: "+ taskHours[i]  +'</p>' +
+		                            '<p class="detailsPopUp">' + "Type: "+ taskType[i]  +'</p>' +
+	                            '</div>'+
                             '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
-                            '<label class="nameLabel">' + taskNames[i]  +'</label>' +
+                            '<label class="nameLabel" onclick=myFunction(\'' + popUpKey + '\')>' + taskNames[i]  +'</label>' +
+                            '<input class="deleteButton" type="image" src="../img/delete.png" />'+ 
+                            // '<img class="deleteButton" src="../img/delete.png" alt="Delete">'+
                             '</br>'+
                             '<label class="deadlineLabel">' + "Due: "+ taskDeadlines[i]  +'</label>' +
                             '</div>';

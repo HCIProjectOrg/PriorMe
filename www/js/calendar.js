@@ -105,7 +105,7 @@ function startDatabaseQueries(c, date) {
                console.log("popUpKey: " + popUpKey);
 
               var html = 
-              '<div class="task" onclick=myFunction(\'' + popUpKey + '\')>'+ 
+              '<div class="task" >'+ 
                       '<div class="popuptext" id='+popUpKey+'>' + 
                           '<div class="popupName" >' + 
                               '<p class="namePopUp">' + childSnapshot.val().Name +'</p>' +
@@ -114,7 +114,10 @@ function startDatabaseQueries(c, date) {
                           '<p class="detailsPopUp">' + "Task: "+ childSnapshot.val().TaskType  +'</p>' +
                           '<p class="detailsPopUp">' + "Estimated Hours: "+ childSnapshot.val().Hours  +'</p>' +
                       '</div>'+
-                      '<label class="nameLabel">' + childSnapshot.val().Name  +'</label>' +
+                      '<label class="nameLabel" onclick=myFunction(\'' + popUpKey + '\')>' + childSnapshot.val().Name  +'</label>' +
+                      '<input class="deleteButton" type="image" src="../img/delete.png" />'+ 
+                      // '<img class="deleteButton" src="../img/delete.png" alt="Delete">'+
+
               '</div>';
 
               taskDiv.innerHTML = html;
