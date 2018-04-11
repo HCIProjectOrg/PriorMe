@@ -21,6 +21,17 @@
 var messageForm = document.getElementById('message-form');
 var messageInput = document.getElementById('new-post-message');
 
+//saved Settings
+var savedexamStudy = "0";
+var savedexamStress = "0";
+var savedhwStudy = "0";
+var savedhwStress = "0";
+var savedprojectStudy = "0";
+var savedprojectStress = "0";
+var savedresearchStudy = "0";
+var savedresearchStress = "0";
+
+
 //settings 
 var examStudy = "0";
 var examStress = "0";
@@ -61,15 +72,60 @@ var app = {
 app.initialize();
 
 function getSettings(){
-    console.log("IN GET SETTINGS");
     var query = firebase.database().ref("Settings").orderByKey();
     query.once("value", function(snapshot) {
         var name = snapshot.val().Name;
         var email = snapshot.val().Email;
-        console.log("User's Name is: "+ name + " User's Email is: "+email);
-//        document.getElementById("name").innerHTML = "Jesse";
-//        document.getElementById("email").innerHTML = email;
+        // document.getElementById("name").innerHTML = "Jesse";
+        //document.getElementById("email").innerHTML = email;
     });
+
+    //change setting values 
+    var query2 = firebase.database().ref("Priorities").orderByKey();
+        query2.once("value", function(snapshot) {
+            savedexamStudy = snapshot.val().examStudy;
+                //examStudy
+                var getexamStudy = "examStudy" + savedexamStudy;
+                document.getElementById(getexamStudy).checked = true;
+
+                
+            savedexamStress = snapshot.val().examStress;
+                //examStress
+                var getexamStress = "examStress" + savedexamStress;
+                document.getElementById(getexamStress).checked = true;
+
+            savedhwStudy = snapshot.val().hwStudy;
+                //hwStudy
+                var gethwStudy = "hwStudy" + savedhwStudy;
+                document.getElementById(gethwStudy).checked = true;
+                 
+            savedhwStress = snapshot.val().hwStress;
+                //hwStress
+                var gethwStress = "hwStress" + savedhwStress;
+                document.getElementById(gethwStress).checked = true;
+
+            savedprojectStudy = snapshot.val().projectStudy;
+                //projectStudy
+                var getprojectStudy = "projectStudy" + savedprojectStudy;
+                document.getElementById(getprojectStudy).checked = true;
+
+
+            savedprojectStress = snapshot.val().projectStress;
+                //projectStress
+                var getprojectStress = "projectStress" + savedprojectStress;
+                document.getElementById(getprojectStress).checked = true;
+
+            savedresearchStudy = snapshot.val().researchStudy;
+                //researchStudy
+                var getresearchStudy = "researchStudy" + savedresearchStudy;
+                document.getElementById(getresearchStudy).checked = true;
+
+            savedresearchStress = snapshot.val().researchStress;
+                   //researchStress 
+                var getresearchStress = "researchStress" + savedresearchStress;
+                document.getElementById(getresearchStress).checked = true;
+        });
+
     // document.getElementById("name").addEventListener("keyup", changeName);
     // document.getElementById("email").addEventListener("keyup", changeEmail);
 }
@@ -135,16 +191,24 @@ Settingsform.onsubmit = function(e) {
         research = Number(1);
     }
 
-    updatePriorities(exam, hw, project, research).then(function() {});  
+    updatePriorities(exam, examStudy,examStress,  hw, hwStudy,hwStress,   project, projectStudy,projectStress,  research, researchStudy, researchStress).then(function() {});  
 };
 
 /*Saves a new message to the Firebase DB.*/
-function updatePriorities(exam, hw, proj, research) {
+function updatePriorities(exam,examStudy,examStress,  hw, hwStudy, hwStress,  proj, projectStudy,projectStress,  research, researchStudy, researchStress) {
     firebase.database().ref('Priorities').update({
         examPriority: exam,
+        examStudy: examStudy, 
+        examStress: examStress,
         homeworkPrioirity: hw,
+        hwStudy: hwStudy,
+        hwStress: hwStress,
         projectPriority: proj,
-        researchPriority: research
+        projectStudy: projectStudy,
+        projectStress: projectStress, 
+        researchPriority: research ,
+        researchStudy: researchStudy ,
+        researchStress: researchStress
     });
 
     var name = document.getElementById("name").innerHTML = name;
