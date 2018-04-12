@@ -117,6 +117,9 @@ app.initialize();
                     taskHours.push(childSnapshot.val().Hours);
                     taskType.push(childSnapshot.val().TaskType);
                     taskDaysLeft.push( 365*(taskDateYear-todayYear) + 31*Math.abs(taskDateMonth-todayMonth) + Math.abs(taskDateDay-todayDay) );
+                }else{
+                	//task is past due, delete
+                	deleteTask(childSnapshot.key);
                 }
             }
         });
@@ -222,7 +225,7 @@ app.initialize();
 	                            '</div>'+
                             '<label class="tasknumberLabel">' + tasknumber + " "+ '</label>' +
                             '<label class="nameLabel" onclick=myFunction(\'' + popUpKey + '\')>' + taskNames[i]  +'</label>' +
-                            '<input class="deleteButton" type="image" src="../img/delete.png" />'+ 
+                            '<input class="deleteButton" onclick=deleteTask(\'' + key + '\') type="image" src="../img/delete.png" />'+ 
                             // '<img class="deleteButton" src="../img/delete.png" alt="Delete">'+
                             '</br>'+
                             '<label class="deadlineLabel">' + "Due: "+ taskDeadlines[i]  +'</label>' +
@@ -299,6 +302,11 @@ function myFunction(keyID) {
     var popup = document.getElementById(keyID);
     popup.classList.toggle("show");
 // >>>>>>> 6feec06d0a5390477105c89e1fda49824cb8ae01
+}
+
+function deleteTask(id){
+	firebase.database().ref("Task").child(id).remove();
+	console.log("Task with id " + id + " was removed");
 }
 
 //check if task is due tomorrow
