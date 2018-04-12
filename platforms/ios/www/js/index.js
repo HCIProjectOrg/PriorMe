@@ -18,10 +18,10 @@
  */
 
 // Shortcuts to DOM Elements.
-// var messageForm = document.getElementById('message-form');
-// var messageInput = document.getElementById('new-post-message');
+var messageForm = document.getElementById('message-form');
+var messageInput = document.getElementById('new-post-message');
+var oldDate = "date check";
 
-/*
 var app = {
     // Application Constructor
     initialize: function() {
@@ -48,126 +48,297 @@ var app = {
         console.log('Received Event: ' + id);
     }
 };
-*/
 
-var app = {
-    // Application Constructor
-    initialize: function() {
-        console.log('In here 1');
-        this.bindEvents();
-        console.log('In here 2');
-    },
-    // Bind Event Listeners
-    //
-    // Bind any events that are required on startup. Common events are:
-    // 'load', 'deviceready', 'offline', and 'online'.
-    bindEvents: function() {
-        console.log('In here 3');
-        document.addEventListener('deviceready', this.onDeviceReady, false);
-        console.log('In here 4');
-    },
-    // deviceready Event Handler
-    //
-    // The scope of 'this' is the event. In order to call the 'receivedEvent'
-    // function, we must explicitly call 'app.receivedEvent(...);'
-    onDeviceReady: function() {
-        console.log('Received Device Ready Event');
-        console.log('calling setup push');
-        app.setupPush();
-    },
-    setupPush: function() {
-        console.log('calling push init');
-        var push = PushNotification.init({
-            "android": {
-                "senderID": "XXXXXXXX"
-            },
-            "browser": {},
-            "ios": {
-                "sound": true,
-                "vibration": true,
-                "badge": true
-            },
-            "windows": {}
-        });
-        console.log('after init');
+app.initialize();
 
-        push.on('registration', function(data) {
-            console.log('registration event: ' + data.registrationId);
-
-            var oldRegId = localStorage.getItem('registrationId');
-            if (oldRegId !== data.registrationId) {
-                // Save new registration ID
-                localStorage.setItem('registrationId', data.registrationId);
-                // Post registrationId to your app server as the value has changed
-            }
-
-            var parentElement = document.getElementById('registration');
-            var listeningElement = parentElement.querySelector('.waiting');
-            var receivedElement = parentElement.querySelector('.received');
-
-            listeningElement.setAttribute('style', 'display:none;');
-            receivedElement.setAttribute('style', 'display:block;');
-        });
-
-        push.on('error', function(e) {
-            console.log("push error = " + e.message);
-        });
-
-        push.on('notification', function(data) {
-            console.log('notification event');
-            navigator.notification.alert(
-                data.message,         // message
-                null,                 // callback
-                data.title,           // title
-                'Ok'                  // buttonName
-            );
-       });
+// Saves message on form submit.
+messageForm.onsubmit = function(e) {
+    e.preventDefault();
+    var text = messageInput.value;
+    if (text) {
+        writeNewPost(text);  
+		setTimeout(function () {send(text).then(function() {})}, 2000);
     }
+    messageInput.value = '';
 };
 
-// app.initialize();
+/*Saves a new message to the Firebase DB.*/
+function writeNewPost(body) {
+   	var d = new Date();
+    var sender = "user";
+   	var date = d.toDateString();
+    var time = d.toLocaleTimeString();
+    firebase.database().ref('Messages').push({
+	    [d]: body,
+        Date: date,
+        Time: time,
+        Sender: sender,
+        Message: body
+	});
+    getNewUpdate();
+    var textbox = document.getElementById("new-post-message");
+    textbox.value="";
+}
 
-// // Saves message on form submit.
-// messageForm.onsubmit = function(e) {
-//     e.preventDefault();
-//     var text = messageInput.value;
-//     if (text) {
-//         newPostForCurrentUser(text).then(function() {
-//             myPostsMenuButton.click();
-//         });
-//         messageInput.value = '';
-//         titleInput.value = '';
-//     }
-// };
+function send(msg){
+	
+	console.log("msg %o", msg);
+	var text = msg;
+	$.ajax({
+		type: "POST",
+		url: "https://api.api.ai/v1/query?v=20150910",
+		contentType: "application/json; charset=utf-8",
+		dataType: "json",
+		headers: {
+			"Authorization": "Bearer " + "b4d343db05bd4886bdb0f9408b9e43ab"
+		},
+		data: JSON.stringify({query: text, lang: "en", sessionId: "1234567890"}),
+		success: function(data){
+			console.log("response %o", data);
+			setResponse(JSON.stringify(data,undefined,2));
+		},
+		error: function(){
+			console.log("Error");	
+		}
+	});
 
-// /**
-//  * Creates a new post for the current user.
-// */
-// function newPostForCurrentUser(title, text) {
-//     // [START single_value_read]
-//     var userId = firebase.auth().currentUser.uid;
-//     return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-//       var username = (snapshot.val() && snapshot.val().username) || 'Anonymous';
-//       // [START_EXCLUDE]
-//       return writeNewPost(firebase.auth().currentUser.uid, username,
-//                           firebase.auth().currentUser.photoURL,
-//                           title, text);
-//       // [END_EXCLUDE]
-//       });
-//     // [END single_value_read]
-// }
+	setTimeout(function() {getDialogFlowUpdate();},2000);								
+}
 
-// /**
-//  * Saves a new post to the Firebase DB.
-//  */
-// // [START write_fan_out]
-// function writeNewPost(uid, username, picture, title, body) {
-//     // A post entry.
-//     var postData = {
-//     author: username,
-//     uid: uid,
-//     body: body,
-//     title: title,
-//     starCount: 0,
-//     authorPic: picture
-//     };
+function setResponse(val){
+	var response = JSON.parse(val);
+	console.log("set %o", response);
+	var htmlTxt = "<span>" + response.result.fulfillment.speech + "</span> </br>";
+	if(response.result.fulfillment.data != null || response.result.fulfillment.data != undefined){
+		var tableTxt = "<table class='matrix'>";		
+					
+		tableTxt += "<tr><th></th>";
+		for(var i in response.result.fulfillment.data.cols){
+			tableTxt += "<th>" + response.result.fulfillment.data.cols[i] + "</th>";
+		}
+					
+		tableTxt += "</tr>";
+		for(var i in response.result.fulfillment.data.rows){
+			tableTxt += "<tr>";
+			for(var j in response.result.fulfillment.data.rows[i])
+				tableTxt += "<td>" + response.result.fulfillment.data.rows[i][j] + "</td>";
+			tableTxt += "</tr>";
+		}
+								
+		tableTxt += "</table>";
+		htmlTxt += tableTxt;	
+	}
+				
+	$("#chat_div").chatbox("option", "boxManager").addMsg("PriorMe",htmlTxt);
+}
+
+function getDialogFlowUpdate(){
+	firebase.database().ref('Messages').once('value', snapshot => {
+        const todoList = snapshot.val();
+        const keys = Object.keys(todoList || {});
+
+		const key = keys[keys.length-1];
+		   let item = todoList[key];
+           
+		   
+		   var mDiv = document.getElementById("messages");
+        var taskDiv = document.createElement("div");
+        taskDiv.class = "messageDiv";
+        var html = "";
+        
+        //check for dates
+        if(oldDate == item.Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + item.Date  +'</p>' +
+            '</div>';
+            oldDate = item.Date;
+        }
+
+		//Commit to github
+		var msg = item.Message;
+		msg = msg.replace(/\n/g, "<br>");
+
+        html = html +  
+            '<div class="chatMessage bot">'+ 
+                //Date
+                '<p class="dateParagrahBot">' + item.Time  +'</p>' +
+                '<div class= chatbotMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';  
+
+        taskDiv.innerHTML = html;
+        mDiv.appendChild(taskDiv);
+		});
+}
+
+function startDatabaseQueries() {
+	//Committ to github
+	send("Hi");
+    var tasknumber = 0; 
+    var query = firebase.database().ref("Messages").orderByKey();
+    query.once("value").then(function(snapshot) {
+    snapshot.forEach(function(childSnapshot) {
+        tasknumber++;
+        var key = childSnapshot.key;
+        var mDiv = document.getElementById("messages");
+        var taskDiv = document.createElement("div");
+        var html = "";
+        taskDiv.class = "messageDiv";
+
+        //check for dates
+        if(oldDate == childSnapshot.val().Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + childSnapshot.val().Date  +'</p>' +
+            '</div>'; 
+        }
+
+		//Commit to github
+		var msg = childSnapshot.val().Message;
+		msg = msg.replace(/\n/g, "<br>");
+		
+        if(childSnapshot.val().Sender  == "user"){
+            html = html + 
+            '<div class="chatMessage user">'+ 
+                //Date
+                '<p class="dateParagrahUser">' + childSnapshot.val().Time  +'</p>' +
+                '<div class= chatuserMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';
+        }
+        else{
+            html = html +  
+            '<div class="chatMessage bot">'+ 
+                //Date
+                '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
+                '<div class= chatbotMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';  
+        }
+
+        oldDate = childSnapshot.val().Date;
+        taskDiv.innerHTML = html;   
+        mDiv.appendChild(taskDiv);
+        });
+    });
+}
+
+function getNewUpdate(){
+    var query = firebase.database().ref("Messages").orderByKey();
+    query.once("child_added", function(snapshot) {
+        var newPost = snapshot.val();
+
+        var mDiv = document.getElementById("messages");
+        var taskDiv = document.createElement("div");
+        taskDiv.class = "messageDiv";
+        var html = "";
+        
+        //check for dates
+        if(oldDate == newPost.Date){
+            //don't print the new date
+        }
+        else{
+            //add new date
+            html = 
+            '<div class="dayStamp">'+ 
+                //Day
+                '<p class="dayLabel">' + newPost.Date  +'</p>' +
+            '</div>';
+            oldDate = newPost.Date;
+        }
+
+        // if(childSnapshot.val().Sender  == "user"){
+            html = html + 
+            '<div class="chatMessage user">'+ 
+                //Date
+                '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
+                '<div class= chatuserMessage >'+
+                    //Sender
+                    // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+                    //Message
+                    '<p class="messageParagrah">' + newPost.Message /*childSnapshot.val().Message*/  +'</p>' +
+                '</div>'+
+            '</div>';
+            taskDiv.innerHTML = html;
+        	mDiv.appendChild(taskDiv);
+        // }
+        // else{
+        //     html = html +  
+        //     '<div class="chatMessage bot">'+ 
+        //         //Date
+        //         '<p class="dateParagrahBot">' + childSnapshot.val().Time  +'</p>' +
+        //         '<div class= chatbotMessage >'+
+        //             //Sender
+        //             // '<p class="senderParagrah">' + childSnapshot.val().Sender +": " +'</p>' +
+        //             //Message
+        //             '<p class="messageParagrah">' + msg /*childSnapshot.val().Message*/  +'</p>' +
+        //         '</div>'+
+        //     '</div>';  
+        //     taskDiv.innerHTML = html;
+        // 	mDiv.appendChild(taskDiv);
+        // }
+
+        // html = html + 
+        // '<div class="chatMessage user">'+ 
+        //     //Date
+        //     '<p class="dateParagrahUser">' + newPost.Time  +'</p>' +
+        //     '<div class= chatbotMessage >'+
+        //         //Sender
+        //         // '<p class="senderParagrah">' + newPost.Sender  +'</p>' +
+        //         //Message
+        //         '<p class="messageParagrah">' + newPost.Message  +'</p>' +
+        //     '</div>'+
+        // '</div>';
+
+
+    }); 
+}
+
+  function startDictation() {
+
+    if (window.hasOwnProperty('webkitSpeechRecognition')) {
+
+      var recognition = new webkitSpeechRecognition();
+
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.lang = "en-US";
+      recognition.start();
+
+      recognition.onresult = function(e) {
+        console.log(e.results[0][0].transcript);
+        document.getElementById('new-post-message').value = e.results[0][0].transcript;
+        recognition.stop();
+        document.getElementById('message-form').submit();
+      };
+
+      recognition.onerror = function(e) {
+        recognition.stop();
+      }
+
+    }
+  }

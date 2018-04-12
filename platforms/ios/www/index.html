@@ -22,7 +22,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
@@ -39,32 +39,49 @@
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
     <link rel="stylesheet" href="css/index.css" />
-    <title>PriorMe</title>
+    <title>Chat</title>
 </head>
-<body>
+<body onload="startDatabaseQueries()">
     <div class="app">
-        <a href="settings.html">
-          <img src="img/man-user.png"  class="usrIcon" alt="Profile Icon">
-        </a>
-        
-        <h1>PriorMe</h1>
-        <div class="firstLevel">
-            <a href="chat.html">
-                <button class="button chat"> Chat</br> <img src="img/support.png" alt="Chat"></button>
-            </a>
+    	<div class="heading">
+            <div id="mySidenav" class="sidenav">
+              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+<!--               <a href="index.html">Home</a>
+ -->          <a href="index.html">Chat</a>
+              <a href="calendar.html">Calendar</a>
+              <a href="tasks.html">Tasks</a>
+              <a href="settings.html">Settings</a>
+            </div>
+
+            <span onclick="openNav()"><img src="img/menu.png" alt="Menu" class="menu"></span>
+
+            <script>
+            function openNav() {
+                document.getElementById("mySidenav").style.width = "250px";
+            }
+
+            function closeNav() {
+                document.getElementById("mySidenav").style.width = "0";
+            }
+            </script>
+            <h1>Chat</h1>
+    	</div>
+    	<div class="mainDiv" id="mainDiv">
+            <!-- add code here to make new div for every date talked -->
+            <!-- Messages Div -->
+            <div id="messages"></div>
+            <div class="enterText">
+                <!-- add code here to make new div for textbox ... is it resizing?-->
+                <form id ="message-form" class="chatInputDiv"  target="_self" action="#">
+                     <!-- action allows for it go to server target self for it to submit and stay on this page-->
+                    <input type="text" id="new-post-message" name="chatInput" class="chatInput" placeholder="Enter Text Here">
+                    <!-- add code here to make new div for microphone -->
+                   <!--  <img onclick="startDictation()" src="img/microphone-black-shape.png" class ="mic" alt="Microphone"> -->
+                </form>
+
+            </div>
         </div>
-        <div class="firstLevel">
-            <a href="calendar.html">
-            	<button class="button circle"> Calendar</br><img src="img/calendar.png" alt="Calendar"></button></a>
-            <a href="tasks.html">
-    			<button class="button circle"> Tasks</br> <img src="img/verification-of-delivery-list-clipboard-symbol.png" alt="Tasks"></button>
-            </a>
-        </div>
-<!--         <div class="micDiv">
-            <img src="img/microphone-black-shape.png" class ="mic" alt="Microphone">
-        </div>  -->
-    </div>
-   
+	</div>
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script>
         // Initialize Firebase
@@ -79,14 +96,85 @@
         firebase.initializeApp(config);
         // Get a reference to the database service
         var database = firebase.database();
-    
-        </script>
-    
+    </script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> 
     <script type="text/javascript" src="cordova.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">  
+
         app.initialize();
+		//Add
+		$(document).ready(function(){
+		
+			var accessToken = "b4d343db05bd4886bdb0f9408b9e43ab";
+			var baseUrl = "https://api.api.ai/v1/";
+			var box = null;
+			box = $("#chat_div").chatbox({id: "Me",
+											user: {key : "value"},
+											title: "PriorME",
+											messageSent: function(id,user,msg){
+												send(msg);
+												$("#chat_div").chatbox("option", "boxManager").addMsg(id, "<span><i>" + msg + "</i></span>");
+											}
+										});
+			function send(msg){
+				console.log("msg %o", msg);
+				var text = msg;
+				$.ajax({
+					type: "POST",
+					url: "https://api.api.ai/v1/query?v=20150910",
+					contentType: "application/json; charset=utf-8",
+					dataType: "json",
+					headers: {
+						"Authorization": "Bearer " + "b4d343db05bd4886bdb0f9408b9e43ab"
+					},
+					data: JSON.stringify({query: text, lang: "en", sessionId: "1234567890"}),
+					success: function(data){
+						console.log("response %o", data);
+						setResponse(JSON.stringify(data,undefined,2));
+					},
+					error: function(){
+						console.log("Error");	
+					}
+				});
+				
+				
+			}
+
+			function setResponse(val){
+				var response = JSON.parse(val);
+				console.log("set %o", response);
+				var htmlTxt = "<span>" + response.result.fulfillment.speech + "</span> </br>";
+				console.log("Chi shode 1");
+				if(response.result.fulfillment.data != null || response.result.fulfillment.data != undefined){
+					console.log("matrixData is not null");
+					var tableTxt = "<table class='matrix'>";
+					console.log("Chi shode 2");			
+					
+					tableTxt += "<tr><th></th>";
+					for(var i in response.result.fulfillment.data.cols){
+						console.log("Chi shode 3");
+						tableTxt += "<th>" + response.result.fulfillment.data.cols[i] + "</th>";
+					}
+					
+					tableTxt += "</tr>";
+					for(var i in response.result.fulfillment.data.rows){
+						tableTxt += "<tr>";
+						console.log("Chi shode 4");
+						for(var j in response.result.fulfillment.data.rows[i])
+							tableTxt += "<td>" + response.result.fulfillment.data.rows[i][j] + "</td>";
+							console.log("Chi shode 5");
+						tableTxt += "</tr>";
+					}
+								
+					tableTxt += "</table>";
+					htmlTxt += tableTxt;	
+				}
+				
+				$("#chat_div").chatbox("option", "boxManager").addMsg("PriorMe",htmlTxt);
+			}
+	
+		});
     </script>
 </body>
-
 </html>

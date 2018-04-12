@@ -22,7 +22,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8" />
+    <meta charset="utf-8"/>
     <meta name="format-detection" content="telephone=no" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
@@ -38,59 +38,33 @@
     -->
     <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
 
-    <link rel="stylesheet"  href="css/tasks.css" />
-    <title>Tasks </title>
+    <link rel="stylesheet" href="css/index.css" />
+    <title>PriorMe</title>
 </head>
-<body onload="startDatabaseQueries()">
+<body>
     <div class="app">
-    	<div class ="heading">
-            <div id="mySidenav" class="sidenav">
-              <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
-              <!-- <a href="index.html">Home</a> -->
-              <a href="index.html">Chat</a>
-              <a href="calendar.html">Calendar</a>
-              <a href="tasks.html">Tasks</a>
-              <a href="settings.html">Settings</a>
-            </div>
-
-            <span onclick="openNav()"><img src="img/menu.png" alt="Menu" class="menu"></span>
-
-            <script>
-            function openNav() {
-                document.getElementById("mySidenav").style.width = "250px";
-            }
-
-            function closeNav() {
-                document.getElementById("mySidenav").style.width = "0";
-            }
-            </script>
-            <h1>Tasks</h1>
-    	</div>
-<!--         <div class="task" onclick="testing()">
-            <label class="nameLabel">nameLabel</label>
-        </div> -->
-        <script>
-            // function testing(){
-            //     console.log("Alert1");
-            //     if (“Notification” in window) {
-            //       Notification.requestPermission(function (permission) {
-            //         // If the user accepts, let’s create a notification
-            //         if (permission === ‘granted’) {
-            //           var notification = new Notification(“My title”, {
-            //                tag: ‘message1’, 
-            //                body: “My body” 
-            //           }); 
-            //           notification.onshow  = function() { console.log(‘show’); };
-            //           notification.onclose = function() { console.log(‘close’); };
-            //           notification.onclick = function() { console.log(‘click’); };
-            //           notification.close();
-            //         }
-            //       });
-            //     }
-            // }
-        </script>
-    	<div class ="mainDiv" id = "mainDiv"></div>
-	</div>
+        <a href="settings.html">
+          <img src="img/man-user.png"  class="usrIcon" alt="Profile Icon">
+        </a>
+        
+        <h1>PriorMe</h1>
+        <div class="firstLevel">
+            <a href="chat.html">
+                <button class="button chat"> Chat</br> <img src="img/support.png" alt="Chat"></button>
+            </a>
+        </div>
+        <div class="firstLevel">
+            <a href="calendar.html">
+            	<button class="button circle"> Calendar</br><img src="img/calendar.png" alt="Calendar"></button></a>
+            <a href="tasks.html">
+    			<button class="button circle"> Tasks</br> <img src="img/verification-of-delivery-list-clipboard-symbol.png" alt="Tasks"></button>
+            </a>
+        </div>
+<!--         <div class="micDiv">
+            <img src="img/microphone-black-shape.png" class ="mic" alt="Microphone">
+        </div>  -->
+    </div>
+   
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script>
         // Initialize Firebase
@@ -103,15 +77,16 @@
            messagingSenderId: "65629113150"
         };
         firebase.initializeApp(config);
-        
         // Get a reference to the database service
         var database = firebase.database();
-    </script>
+    
+        </script>
+    
     <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/tasks.js"></script>
-    <script src="js/plugins/PushNotification.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript">  
         app.initialize();
     </script>
 </body>
+
 </html>
